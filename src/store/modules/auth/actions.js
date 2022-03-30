@@ -1,0 +1,48 @@
+import api from '@/apis/api'
+import router from '@/router'
+
+export const signup = async ({commit}, {user}) => {
+    try {
+        const res = await api.post('/signup', user);
+        if (res.status === 201) {
+            router.push({ name: 'signin' })
+        }        
+    } catch (error) {
+        if (error.response.status === 422) {
+            commit('SET_ERRORS', error.response.data.errors)
+        }
+    }
+}
+
+export const signin = async ({commit}, {user}) => {
+    try {
+        const res = await api.post('/signin', user);
+        if (res.status === 200) {
+            commit('SET_LOGGED_IN_STATUS', true)
+            commit('SET_USER', res.data.user)
+            commit('SET_TOKEN', res.data.token)
+
+            router.push({ name: 'dashboard.post' })
+        }        
+    } catch (error) {
+        if (error.response.status === 422) {
+            commit('SET_ERRORS', error.response.data.errors)
+        }
+    }
+}
+
+export const signout = async ({commit}) => {
+    try {
+        const res = await api.post('/signout');
+        if (res.status === 200) {
+            commit('SET_LOGGED_IN_STATUS', false)
+            commit('SET_USER', null)
+            commit('SET_TOKEN', null)
+
+            router.push({ name: 'home' })
+        }        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
