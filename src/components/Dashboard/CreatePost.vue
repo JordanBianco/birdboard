@@ -13,12 +13,9 @@
                 <!-- Validation provider per lunghezza caratteri -->
             
             <footer class="flex items-center justify-between border-t border-slate-100 pt-2">
-                <div v-if="user" class="flex items-center space-x-2">
+                <div class="flex items-center space-x-2">
                     <div class="bg-slate-200 rounded-full w-9 h-9"></div>
                     <span class="text-slate-400">@{{ user.username }}</span>
-                </div>
-                <div v-else>
-                    <span class="text-slate-400 text-xs">accedi per pubblicare un post</span>
                 </div>
                 <button
                     type="submit"
@@ -36,7 +33,7 @@ export default {
         "success": {
             handler() {
                 if (this.success) {
-                    this.$store.commit('user/SET_SUCCESS_STATUS', false)
+                    this.$store.commit('users/SET_SUCCESS_STATUS', false)
                     this.post.body = ''
                 }
             },
@@ -56,13 +53,16 @@ export default {
             return this.$store.state.auth.user
         },
         success() {
-            return this.$store.state.user.success
+            return this.$store.state.users.success
         }
     },
     methods: {
         storePost() {
             if (this.post.body == '') return
-            this.$store.dispatch('user/storePost', { post: this.post })
+            this.$store.dispatch('users/storePost', { 
+                username: this.user.username,
+                post: this.post
+            })
         }
     }
 }

@@ -23,7 +23,7 @@ describe('TheFeed', () => {
 
         store = new Vuex.Store({
             modules: {
-                posts: {
+                feed: {
                     namespaced: true,
                     actions,
                     state

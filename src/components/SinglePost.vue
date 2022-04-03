@@ -1,18 +1,24 @@
 <template>
     <div
-        v-if="post"
+        v-if="dataPost"
         class="text-sm bg-white border-t border-l border-r last:border-b border-slate-200 first:rounded-t-lg last:rounded-b-lg p-3 flex items-start space-x-3">
             <div>
                 <div class="bg-slate-200 rounded-full w-9 h-9"></div>
             </div>
             <div class="w-full flex items-start justify-between">
                 <section class="w-full">
-                    <span class="font-semibold text-slate-700 mr-2">{{ post.user.name }}</span>
-                    <span class="text-slate-400">@{{ post.user.username }}</span>
+                    <span class="font-semibold text-slate-700 mr-2">{{ dataPost.user.name }}</span>
+                    
+                    <router-link
+                        :to="{ name: 'user.show', params: { username: dataPost.user.username } }"
+                        class="text-slate-400">
+                            @{{ dataPost.user.username }}
+                    </router-link>
+                    
                     <span class="text-slate-400 mx-1">&bull;</span>
-                    <span class="text-slate-400">{{ post.created_at }}</span>
+                    <span class="text-slate-400">{{ dataPost.created_at }}</span>
 
-                    <p class="py-3">{{ post.body }}</p>
+                    <p class="py-3">{{ dataPost.body }}</p>
                     
                     <footer class="border-t border-slate-100 pt-2 flex items-center space-x-4 text-slate-400">
                         <div class="flex space-x-1 items-center">
@@ -22,7 +28,7 @@
                         
                         <div class="flex space-x-1 items-center">
                             <router-link
-                                :to="{ name: 'post.show', params: { id: post.id }}">
+                                :to="{ name: 'post.show', params: { username: dataPost.user.username, id: dataPost.id } }">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle w-5 h-5 flex-none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                             </router-link>
                             <span class="text-xs">12</span>
@@ -30,21 +36,21 @@
                     </footer>
                 </section>
 
-                <div v-if="user && post.user_id === user.id" class="relative">
+                <div v-if="user && dataPost.user_id === user.id" class="relative">
                     <svg
-                        id="toggleMenu"
-                        @click="toggleMenu()"
+                        id="toggleActionMenu"
+                        @click="toggleActionMenu()"
                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical w-5 h-5 flex-none text-slate-400 cursor-pointer"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
                 
                     <div
-                        v-if="showMenu"
+                        v-if="showActionMenu"
                         class="absolute right-0 bg-white border border-slate-200 rounded-lg">
-                            <router-link
-                                :to="{ name: 'dashboard.post.edit', params: { id: post.id }}"
-                                @click.native="toggleMenu()"
-                                class="block p-3">
+                            <button
+                                id="openEditPostModal"
+                                @click="openEditPostModal()"
+                                class="p-3">
                                     Modifica
-                            </router-link>
+                            </button>
                             <button
                                 id="deletePost"
                                 @click="deletePost()"
@@ -54,12 +60,24 @@
                     </div>
                 </div>
             </div>
+
+            <EditPostModal
+                v-if="showEditPostModal"
+                :postCopy="postCopy"
+                @cancelEdit="cancelEdit"
+                @updatePostValues="updatePostValues"
+            />
     </div>
 </template>
 
 <script>
+import EditPostModal from '@/components/Dashboard/EditPostModal'
+
 export default {
     name: 'SinglePost',
+    components: {
+        EditPostModal
+    },
     props: {
         post: {
             type: Object,
@@ -71,13 +89,17 @@ export default {
 
         window.addEventListener('click', function(e){
             if (!self.$el.contains(e.target)){
-                self.showMenu = false
+                self.showActionMenu = false
             } 
         })
     },
     data() {
         return {
-            showMenu: false
+            showActionMenu: false,
+            showEditPostModal: false,
+            postCopy: {},
+            // Aggiunto per risolvere errore di modificare una prop direttamente
+            dataPost: this.post
         }
     },
     computed: {
@@ -86,11 +108,31 @@ export default {
         }
     },
     methods: {
-        toggleMenu() {
-            this.showMenu = ! this.showMenu
+        toggleActionMenu() {
+            this.showActionMenu = ! this.showActionMenu
+        },
+        openEditPostModal() {
+            // Copio l'oggetto in caso l'utente annulli la modifica, cosi da riportare l'oggetto allo stato iniziale
+            Object.keys(this.dataPost).forEach((key) => {
+                this.$set(this.postCopy, key, this.dataPost[key]);
+            })
+            
+            this.toggleActionMenu()
+            this.showEditPostModal = true
+        },
+        cancelEdit() {
+            this.showEditPostModal = false
         },
         deletePost() {
-            this.$store.dispatch('user/deletePost', { post: this.post })
+            this.$store.dispatch('users/deletePost', { 
+                username: this.user.username,
+                post: this.dataPost
+            })
+        },
+        updatePostValues(post) {
+            this.showEditPostModal = false
+            this.dataPost = post
+            this.postCopy = {}
         }
     }
 }

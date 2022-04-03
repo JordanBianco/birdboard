@@ -1,7 +1,6 @@
 <template>
-    <form @submit.prevent="signup()" class="mt-10 space-y-6">
-
-        <ErrorMessage :errors="errors" />
+    <form v-if="user" class="space-y-6">
+        <!-- <ErrorMessage :errors="errors" /> -->
 
         <div>
             <label class="text-xs text-sky-400 uppercase block mb-1">Nome</label>
@@ -13,7 +12,7 @@
                 class="w-full border border-slate-200 rounded-lg px-4 py-2 focus:outline-sky-200 text-sm">
         </div>
 
-        <div>
+        <!-- <div>
             <label class="text-xs text-sky-400 uppercase block mb-1">Username</label>
             <input
                 name="username"
@@ -31,9 +30,19 @@
                 v-model="user.email"
                 type="email"
                 class="w-full border border-slate-200 rounded-lg px-4 py-2 focus:outline-sky-200 text-sm">
+        </div> -->
+
+        <div>
+            <label class="text-xs text-sky-400 uppercase block mb-1">Bio</label>
+            <textarea
+                name="bio"
+                id="bio"
+                v-model="user.bio"
+                rows="4"
+                class="w-full border border-slate-200 rounded-lg px-4 py-2 focus:outline-sky-200 text-sm resize-none"></textarea>
         </div>
 
-        <div class="relative">
+        <!-- <div class="relative">
             <label class="text-xs text-sky-400 uppercase block mb-1">Password</label>
             <input
                 name="password"
@@ -42,62 +51,33 @@
                 :type="showPassword ? 'text' : 'password'"
                 class="w-full border border-slate-200 rounded-lg py-2 pl-4 pr-20 focus:outline-sky-200 text-sm">
 
-            <button
+            <span
                 id="toggle"
                 @click="togglePassword()"
                 class="absolute text-slate-400 text-xs right-6 top-8 uppercase">
                     Show
-            </button>
-        </div>
+            </span>
+        </div> -->
 
         <button
             type="submit"
             class="w-full bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200">
-                Iscriviti
+                Aggiorna
         </button>
     </form>
 </template>
 
 <script>
-import ErrorMessage from '@/components/ErrorMessage'
-
 export default {
-    name: 'SignupForm',
-    components: {
-        ErrorMessage
-    },
-    watch: {
-        "$route" : {
-            handler() {
-                this.$store.commit('auth/SET_ERRORS', [])
-            },
-            deep: true,
-            immediate: true
-        }
-    },
-    data() {
-        return {
-            user: {
-                name: '',
-                username: '',
-                email: '',
-                password: ''
-            },
-            showPassword: false
-        }
-    },
-    computed: {
-        errors() {
-            return this.$store.state.auth.errors
+    name: 'dashboard.EditUserProfile',
+    props: {
+        user: {
+            type: Object,
+            required: true
         }
     },
     methods: {
-        togglePassword() {
-            this.showPassword = ! this.showPassword
-        },
-        signup() {
-            this.$store.dispatch('auth/signup', { user: this.user })
-        }
+
     }
 }
 </script>

@@ -22,7 +22,7 @@ export const signin = async ({commit}, {user}) => {
             commit('SET_USER', res.data.user)
             commit('SET_TOKEN', res.data.token)
 
-            router.push({ name: 'dashboard.post' })
+            router.push({ name: 'user.show', params: { username: res.data.user.username }})
         }        
     } catch (error) {
         if (error.response.status === 422) {
@@ -46,3 +46,13 @@ export const signout = async ({commit}) => {
     }
 }
 
+export const getUser = async ({commit}) => {
+    try {
+        const res = await api.get('/user');
+        if (res.status === 200) {
+            commit('SET_USER', res.data)
+        }        
+    } catch (error) {
+        console.log(error)
+    }
+}

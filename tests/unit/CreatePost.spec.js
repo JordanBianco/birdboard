@@ -1,5 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils'
-import CreatePost from '@/components/CreatePost'
+import CreatePost from '@/components/Dashboard/CreatePost'
 import Vuex from 'vuex'
 
 const localVue = createLocalVue()
@@ -9,27 +9,22 @@ describe('CreatePost', () => {
 
     let store
     let actions
-    let state
 
     beforeEach(() => {
         actions = {
             storePost: jest.fn()
         }
 
-        state = {
-            user: {},
-            success: false
-        }
-
         store = new Vuex.Store({
             modules: {
-                user: {
+                users: {
                     namespaced: true,
-                    actions
+                    actions,
+                    state: { success: false }
                 },
                 auth: {
                     namespaced: true,
-                    state
+                    state: { user: {} }
                 }
             }
         })

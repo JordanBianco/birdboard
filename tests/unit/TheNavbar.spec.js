@@ -73,7 +73,7 @@ describe('TheNavbar', () => {
         const wrapper = mount(TheNavbar, {
             localVue,
             store,
-            stubs: ['router-link']
+            stubs: ['router-link', 'DropdownMenu']
         })
 
         expect(wrapper.find('#signup').exists()).toBeFalsy()

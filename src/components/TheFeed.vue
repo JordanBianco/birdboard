@@ -17,11 +17,11 @@ export default {
         SinglePost
     },
     mounted() {
-        this.$store.dispatch('posts/getAll')
+        this.$store.dispatch('feed/getAll')
     },
     computed: {
         posts() {
-            return this.$store.state.posts.posts
+            return this.$store.state.feed.posts
         }
     }
 }

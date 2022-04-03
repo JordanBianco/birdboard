@@ -1,0 +1,81 @@
+<template>
+    <div v-if="user" class="grid grid-cols-12 space-x-10">
+		<section class="col-span-9">
+            <TheProfile
+                :user="user"
+                :loggedInUser="loggedInUser"
+            />
+
+            <div class="space-y-8 pb-10">
+                <CreatePost
+                    v-if="loggedInUser.id === user.id"
+                />
+
+                <div v-if="posts && posts.length != 0">
+                    <SinglePost
+                        v-for="post in posts"
+                        :key="post.id"
+                        :post="post"
+                    />
+                </div>
+            </div>
+        </section>
+
+		<section class="col-span-3">
+            prova
+		</section>
+	</div>
+</template>
+
+<script>
+import TheProfile from '@/components/User/TheProfile'
+import CreatePost from '@/components/Dashboard/CreatePost'
+import SinglePost from '@/components/SinglePost'
+
+export default {
+    name: 'user.show',
+    props: {
+        username: {
+            type: String,
+            required: true
+        }
+    },
+    components: {
+        TheProfile,
+        CreatePost,
+        SinglePost
+    },
+    mounted() {
+        this.getUser()
+        this.getPosts()
+    },
+    watch: {
+        username : {
+            handler() {
+                this.getUser()
+            },
+            deep: true,
+            immediate: true
+        }
+    },
+    computed: {
+        user() {
+            return this.$store.state.users.user
+        },
+        posts() {
+            return this.$store.state.users.posts
+        },
+        loggedInUser() {
+            return this.$store.state.auth.user
+        }
+    },
+    methods: {
+        getUser() {
+            this.$store.dispatch('users/getUser', { username: this.username })
+        },
+        getPosts() {
+            this.$store.dispatch('users/getPosts', { username: this.username })
+        },
+    }
+}
+</script>

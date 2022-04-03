@@ -5,13 +5,12 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex)
 
 import auth from '@/store/modules/auth'
-import posts from '@/store/modules/posts'
-import user from '@/store/modules/user'
+import feed from '@/store/modules/feed'
+import users from '@/store/modules/users'
 
 const dataState = createPersistedState({
 	paths: [
 		'auth.loggedIn',
-		'auth.user',
 		'auth.token'
 	]
 })
@@ -27,8 +26,8 @@ export default new Vuex.Store({
 	},
 	modules: {
 		auth,
-		posts,
-		user
+		feed,
+		users
 	},
 	plugins: [dataState],
 })

@@ -1,5 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import SinglePost from '@/components/SinglePost'
+import EditPostModal from '@/components/Dashboard/EditPostModal'
 import Vuex from 'vuex'
 
 const localVue = createLocalVue()
@@ -24,7 +25,7 @@ describe('SinglePost', () => {
 
         store = new Vuex.Store({
             modules: {
-                user: {
+                users: {
                     namespaced: true,
                     actions,
                 },
@@ -39,10 +40,8 @@ describe('SinglePost', () => {
             id: 1,
             body: 'lorem',
             user: {
-                id: 1,
                 name: 'user',
                 username: 'username',
-                email: 'user@user.com'
             } 
         }
 
@@ -61,9 +60,19 @@ describe('SinglePost', () => {
         expect(wrapper.vm.$props.post).toEqual(post)
     })
 
-    test('user can delete a post', async () => {
-        await wrapper.find('#toggleMenu').trigger('click')
+    test('show edit modal when user click modifica', async () => {
+        // Open the mini action menu
+        await wrapper.find('#toggleActionMenu').trigger('click')
 
+        expect(wrapper.findComponent(EditPostModal).exists()).toBeFalsy()
+
+        await wrapper.find('#openEditPostModal').trigger('click')
+
+        expect(wrapper.findComponent(EditPostModal).exists()).toBeTruthy()
+    })
+
+    test('user can delete a post', async () => {
+        await wrapper.find('#toggleActionMenu').trigger('click')
         await wrapper.find('#deletePost').trigger('click')
 
         expect(actions.deletePost).toHaveBeenCalled()

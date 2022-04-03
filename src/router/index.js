@@ -23,33 +23,43 @@ const routes = [
 		component: () => import(/* webpackChunkName: "signin" */ '../views/Auth/signin.vue'),
 		meta: { guest: true }
 	},
+	// User Profile, profilo accessibile a chiunque
 	{
-		path: '/post/:id',
-		name: 'post.show',
-		component: () => import(/* webpackChunkName: "post.show" */ '../views/Post/show.vue'),
+		path: '/:username',
+		name: 'user.show',
+		component: () => import(/* webpackChunkName: "show" */ '../views/User/show.vue'),
 		props: true
 	},
-	// Dashboard
+	// User Posts
 	{
-		path: '/dashboard',
-		component: () => import(/* webpackChunkName: "index" */ '../views/User/index.vue'),
+		path: '/:username/post/:id',
+		name: 'post.show',
+		component: () => import(/* webpackChunkName: "post.show" */ '../views/User/Post/show.vue'),
+		props: true
+	},
+	// Pagina per modificare i dati dell'utente loggato, accessibile solo all'utente loggato
+	{
+		path: '/:username/settings',
+		component: () => import(/* webpackChunkName: "settings.index" */ '../views/User/Settings/index.vue'),
+		props: true,
 		meta: { auth: true },
 		children: [
 			{
 				path: '/',
-				name: 'dashboard.post',
-				component: () => import(/* webpackChunkName: "dashboard.post.index" */ '../views/User/Post/index.vue'),
-				meta: { auth: true },
+				name: 'user.settings.profile',
+				component: () => import(/* webpackChunkName: "settings.profile" */ '../views/User/Settings/profile.vue'),
+				props: true,
+				meta: { auth: true }
 			},
 			{
-				path: 'post/:id/edit',
-				name: 'dashboard.post.edit',
-				component: () => import(/* webpackChunkName: "dashbaord.post.edit" */ '../views/User/Post/edit.vue'),
+				path: '/:username/settings/account',
+				name: 'user.settings.account',
+				component: () => import(/* webpackChunkName: "settings.account" */ '../views/User/Settings/account.vue'),
 				props: true,
-				meta: { auth: true },
+				meta: { auth: true }
 			}
 		]
-	},
+	}
 ]
 
 const router = new VueRouter({

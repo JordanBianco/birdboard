@@ -6,6 +6,7 @@
         <div>
             <label class="text-xs text-sky-400 uppercase block mb-1">Email</label>
             <input
+                name="email"
                 id="email"
                 v-model="user.email"
                 type="email"
@@ -15,6 +16,7 @@
         <div class="relative">
             <label class="text-xs text-sky-400 uppercase block mb-1">Password</label>
             <input
+                name="password"
                 id="password"
                 v-model="user.password"
                 :type="showPassword ? 'text' : 'password'"

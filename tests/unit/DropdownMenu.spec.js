@@ -14,6 +14,7 @@ describe('DropdownMenu', () => {
 
     beforeEach(() => {
         actions = {
+            getUser: jest.fn(),
             signout: jest.fn()
         }
 
@@ -38,10 +39,14 @@ describe('DropdownMenu', () => {
         })
     })
 
-    test('action signout is dispatched', async () => {
+    test('action signout is dispatched after click', async () => {
         await wrapper.find('#avatar').trigger('click')
 
         await wrapper.find('#signout').trigger('click')
         expect(actions.signout).toHaveBeenCalled()
+    })
+
+    test('action getUser is dispatched', () => {
+        expect(actions.getUser).toHaveBeenCalled()
     })
 })
