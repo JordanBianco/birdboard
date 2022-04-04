@@ -1,28 +1,30 @@
 <template>
-    <nav class="flex justify-between items-center p-6 bg-white">
-        <router-link
-            :to="{ name: 'home' }"
-            class="text-xl font-semibold flex items-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 flex-none feather feather-feather text-sky-400"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
-                <h1>Birdboard</h1>
-        </router-link>
+    <nav class="p-6 bg-white">
+        <div class="flex justify-between items-center xl:max-w-5xl mx-auto">
+            <router-link
+                :to="{ name: 'home' }"
+                class="text-xl font-semibold flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 flex-none feather feather-feather text-sky-400"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
+                    <h1>Birdboard</h1>
+            </router-link>
 
-        <div v-if="!loggedIn" class="flex items-center space-x-6 text-sm">
-            <router-link
-                id="signin"
-                :to="{ name: 'signin' }"
-                class="text-slate-400 hover:text-slate-600 transition">
-                    Accedi
-            </router-link>
-            <router-link
-                id="signup"
-                :to="{ name: 'signup' }"
-                class="bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200">
-                    Iscriviti
-            </router-link>
-        </div>
-        <div v-else>
-            <DropdownMenu />
+            <div v-if="!loggedIn" class="flex items-center space-x-6 text-sm">
+                <router-link
+                    id="signin"
+                    :to="{ name: 'signin' }"
+                    class="text-slate-400 hover:text-slate-600 transition">
+                        Accedi
+                </router-link>
+                <router-link
+                    id="signup"
+                    :to="{ name: 'signup' }"
+                    class="bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200">
+                        Iscriviti
+                </router-link>
+            </div>
+            <div v-else>
+                <DropdownMenu />
+            </div>
         </div>
     </nav>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="signin()" class="mt-10 space-y-6">
 
-        <ErrorMessage :errors="errors" />
+        <ErrorMessages :errors="errors" />
 
         <div>
             <label class="text-xs text-sky-400 uppercase block mb-1">Email</label>
@@ -39,12 +39,12 @@
 </template>
 
 <script>
-import ErrorMessage from '@/components/ErrorMessage'
+import ErrorMessages from '@/components/Layout/ErrorMessages'
 
 export default {
     name: 'SigninForm',
     components: {
-        ErrorMessage
+        ErrorMessages
     },
     watch: {
         "$route" : {

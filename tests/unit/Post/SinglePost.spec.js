@@ -1,6 +1,6 @@
 import { mount, createLocalVue } from '@vue/test-utils'
-import SinglePost from '@/components/SinglePost'
-import EditPostModal from '@/components/Dashboard/EditPostModal'
+import SinglePost from '@/components/Post/SinglePost'
+import EditPostModal from '@/components/Post/EditPostModal'
 import Vuex from 'vuex'
 
 const localVue = createLocalVue()
@@ -13,6 +13,7 @@ describe('SinglePost', () => {
     let state
     let wrapper
     let post
+    let $route
 
     beforeEach(() => {
         actions = {
@@ -21,6 +22,10 @@ describe('SinglePost', () => {
 
         state = {
             user: {}
+        }
+
+        $route = {
+            name: 'post.show'
         }
 
         store = new Vuex.Store({
@@ -49,9 +54,14 @@ describe('SinglePost', () => {
             localVue,
             store,
             propsData: {
-                post
+                post,
+                replies_count: 1
             },
-            stubs: ['router-link']
+            stubs: ['router-link'],
+            mocks: {
+                $route,
+                $moment: () => jest.requireActual('moment')('2020-01-01T00:00:00.000Z')
+            }
         })
     })
     

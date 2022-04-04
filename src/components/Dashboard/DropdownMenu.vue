@@ -7,7 +7,7 @@
 
         <div
             v-if="showMenu"
-            class="absolute top-12 right-0 w-48 bg-white border border-slate-200 rounded-lg">
+            class="absolute top-12 right-0 w-48 bg-white border border-slate-200 rounded-lg z-20">
                 <header class="p-3">
                     <span class="block font-semibold">{{ user.name }}</span>
                     <span class="block text-slate-400 text-sm -mt-1">@{{ user.username }}</span>

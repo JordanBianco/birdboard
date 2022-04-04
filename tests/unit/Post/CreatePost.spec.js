@@ -1,5 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils'
-import CreatePost from '@/components/Dashboard/CreatePost'
+import CreatePost from '@/components/Post/CreatePost'
 import Vuex from 'vuex'
 
 const localVue = createLocalVue()
@@ -9,10 +9,15 @@ describe('CreatePost', () => {
 
     let store
     let actions
+    let mutations
 
     beforeEach(() => {
         actions = {
             storePost: jest.fn()
+        }
+
+        mutations = {
+            SET_ERRORS: jest.fn()
         }
 
         store = new Vuex.Store({
@@ -20,7 +25,11 @@ describe('CreatePost', () => {
                 users: {
                     namespaced: true,
                     actions,
-                    state: { success: false }
+                    mutations,
+                    state: { 
+                        success: false,
+                        errors: []
+                    }
                 },
                 auth: {
                     namespaced: true,
@@ -34,7 +43,8 @@ describe('CreatePost', () => {
     test('submit the form dispatch an action', async () => {
         const wrapper = mount(CreatePost, {
             localVue,
-            store
+            store,
+            stubs: ['ErrorMessages']
         })
 
         await wrapper.find('textarea').setValue('lorem ipsum')
@@ -46,7 +56,8 @@ describe('CreatePost', () => {
     test('body cannot be empty', async () => {
         const wrapper = mount(CreatePost, {
             localVue,
-            store
+            store,
+            stubs: ['ErrorMessages']
         })
 
         await wrapper.find('textarea').setValue('')

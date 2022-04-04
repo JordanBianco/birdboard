@@ -1,5 +1,5 @@
 import { mount, createLocalVue } from '@vue/test-utils'
-import EditPostModal from '@/components/Dashboard/EditPostModal'
+import EditPostModal from '@/components/Post/EditPostModal'
 import Vuex from 'vuex'
 
 const localVue = createLocalVue()

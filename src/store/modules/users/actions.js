@@ -42,9 +42,12 @@ export const storePost = async ({commit}, {username, post}) => {
         if (res.status === 201) {
             commit('STORE_POST', res.data.data);
             commit('SET_SUCCESS_STATUS', true);
+            commit('SET_ERRORS', [])
         }
     } catch (error) {
-        console.log(error)
+        if (error.response.status === 422) {
+            commit('SET_ERRORS', error.response.data.errors)
+        }
     }
 }
 

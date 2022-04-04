@@ -7,6 +7,7 @@ Vue.use(Vuex)
 import auth from '@/store/modules/auth'
 import feed from '@/store/modules/feed'
 import users from '@/store/modules/users'
+import reply from '@/store/modules/reply'
 
 const dataState = createPersistedState({
 	paths: [
@@ -27,7 +28,8 @@ export default new Vuex.Store({
 	modules: {
 		auth,
 		feed,
-		users
+		users,
+		reply
 	},
 	plugins: [dataState],
 })

@@ -6,7 +6,7 @@
                 :loggedInUser="loggedInUser"
             />
 
-            <div class="space-y-8 pb-10">
+            <div class="space-y-8 py-10">
                 <CreatePost
                     v-if="loggedInUser.id === user.id"
                 />
@@ -16,6 +16,7 @@
                         v-for="post in posts"
                         :key="post.id"
                         :post="post"
+                        :replies_count="post.replies_count"
                     />
                 </div>
             </div>
@@ -29,8 +30,8 @@
 
 <script>
 import TheProfile from '@/components/User/TheProfile'
-import CreatePost from '@/components/Dashboard/CreatePost'
-import SinglePost from '@/components/SinglePost'
+import CreatePost from '@/components/Post/CreatePost'
+import SinglePost from '@/components/Post/SinglePost'
 
 export default {
     name: 'user.show',
