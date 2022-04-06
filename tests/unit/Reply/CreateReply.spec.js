@@ -11,11 +11,11 @@ describe('CreateReply', () => {
     let actions
     let mutations
     let post
+    let user
 
     beforeEach(() => {
-        post = {
-            id: 1
-        }
+        post = { id: 1 }
+        user = { id: 1, username: 'test' }
         
         actions = {
             storeReply: jest.fn()
@@ -50,7 +50,7 @@ describe('CreateReply', () => {
         const wrapper = mount(CreateReply, {
             localVue,
             store,
-            propsData: { post },
+            propsData: { post, user },
             stubs: ['ErrorMessages']
         })
 
@@ -64,7 +64,7 @@ describe('CreateReply', () => {
         const wrapper = mount(CreateReply, {
             localVue,
             store,
-            propsData: { post },
+            propsData: { post, user },
             stubs: ['ErrorMessages']
         })
 

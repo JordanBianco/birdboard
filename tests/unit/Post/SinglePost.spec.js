@@ -1,6 +1,7 @@
 import { mount, createLocalVue } from '@vue/test-utils'
 import SinglePost from '@/components/Post/SinglePost'
 import EditPostModal from '@/components/Post/EditPostModal'
+import TogglePostLike from '@/components/Like/TogglePostLike'
 import Vuex from 'vuex'
 
 const localVue = createLocalVue()
@@ -37,6 +38,10 @@ describe('SinglePost', () => {
                 auth: {
                     namespaced: true,
                     state
+                },
+                like: {
+                    namespaced: true,
+                    state: { likes: [] }
                 }
             }
         })
@@ -57,7 +62,7 @@ describe('SinglePost', () => {
                 post,
                 replies_count: 1
             },
-            stubs: ['router-link'],
+            stubs: ['router-link', 'TogglePostLike'],
             mocks: {
                 $route,
                 $moment: () => jest.requireActual('moment')('2020-01-01T00:00:00.000Z')

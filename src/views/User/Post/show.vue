@@ -2,7 +2,7 @@
     <div
         v-if="post && replies"
         class="max-w-3xl mx-auto space-y-8 py-10">
-        
+
         <SinglePost
             :post="post"
             :replies_count="replies.length"

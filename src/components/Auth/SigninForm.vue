@@ -58,8 +58,8 @@ export default {
     data() {
         return {
             user: {
-                email: '',
-                password: ''
+                email: 'hammes.yasmin@example.org',
+                password: 'password'
             },
             showPassword: false
         }

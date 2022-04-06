@@ -14,13 +14,16 @@ export const signup = async ({commit}, {user}) => {
     }
 }
 
-export const signin = async ({commit}, {user}) => {
+export const signin = async ({commit, dispatch}, {user}) => {
     try {
         const res = await api.post('/signin', user);
         if (res.status === 200) {
             commit('SET_LOGGED_IN_STATUS', true)
             commit('SET_USER', res.data.user)
             commit('SET_TOKEN', res.data.token)
+            
+            // prendo i likes dell'utente e li salvo in persisted.state 
+            dispatch('like/getUserLikes', { username: res.data.user.username }, { root: true})
 
             router.push({ name: 'user.show', params: { username: res.data.user.username }})
         }        
@@ -38,6 +41,8 @@ export const signout = async ({commit}) => {
             commit('SET_LOGGED_IN_STATUS', false)
             commit('SET_USER', null)
             commit('SET_TOKEN', null)
+
+            commit('like/GET_USER_LIKES', [], { root: true})
 
             router.push({ name: 'home' })
         }        

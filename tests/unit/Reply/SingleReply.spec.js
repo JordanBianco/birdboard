@@ -37,6 +37,10 @@ describe('SingleReply', () => {
                 auth: {
                     namespaced: true,
                     state
+                },
+                like: {
+                    namespaced: true,
+                    state: { likes: [] }
                 }
             }
         })

@@ -6,13 +6,15 @@ Vue.use(Vuex)
 
 import auth from '@/store/modules/auth'
 import feed from '@/store/modules/feed'
-import users from '@/store/modules/users'
+import users from '@/store/modules/users' // cambiare in post
 import reply from '@/store/modules/reply'
+import like from '@/store/modules/like'
 
 const dataState = createPersistedState({
 	paths: [
 		'auth.loggedIn',
-		'auth.token'
+		'auth.token',
+		'like.likes'
 	]
 })
 
@@ -29,7 +31,8 @@ export default new Vuex.Store({
 		auth,
 		feed,
 		users,
-		reply
+		reply,
+		like
 	},
 	plugins: [dataState],
 })

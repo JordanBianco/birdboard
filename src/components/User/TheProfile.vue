@@ -34,7 +34,7 @@
                 </p>
 
                 <div class="flex items-center space-x-4">
-                    <p><span class="text-slate-600 font-semibold">10</span> Post</p>
+                    <p><span class="text-slate-600 font-semibold">{{ posts_count }}</span> Post</p>
                     <p><span class="text-slate-600 font-semibold">100</span> Follower</p>
                     <p><span class="text-slate-600 font-semibold">4</span> Seguiti</p>
                 </div>
@@ -54,6 +54,10 @@ export default {
         loggedInUser: {
             type: [Object, null],
             required: false
+        },
+        posts_count: {
+            type: Number,
+            required: true
         }
     }
 }

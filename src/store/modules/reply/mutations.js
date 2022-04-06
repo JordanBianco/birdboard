@@ -21,3 +21,11 @@ export const SET_EDIT_SUCCESS_STATUS = (state, value) => {
 export const SET_ERRORS = (state, errors) => {
     state.errors = errors
 }
+
+export const ADD_LIKE_TO_REPLY = (_, reply) => {
+    reply.likes_count = reply.likes_count + 1    
+}
+
+export const REMOVE_LIKE_FROM_REPLY = (_, reply) => {
+    reply.likes_count = reply.likes_count - 1
+}

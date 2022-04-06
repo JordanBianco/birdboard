@@ -1,8 +1,9 @@
 <template>
-    <div v-if="user" class="grid grid-cols-12 space-x-10">
+    <div v-if="user && posts" class="grid grid-cols-12 space-x-10">
 		<section class="col-span-9">
             <TheProfile
                 :user="user"
+                :posts_count="posts.length"
                 :loggedInUser="loggedInUser"
             />
 
@@ -18,6 +19,7 @@
                         :post="post"
                         :replies_count="post.replies_count"
                     />
+                    <!-- :likes_count="post.likes_count" -->
                 </div>
             </div>
         </section>
@@ -54,6 +56,7 @@ export default {
         username : {
             handler() {
                 this.getUser()
+                // Aggiungere posts e likes
             },
             deep: true,
             immediate: true
@@ -76,7 +79,7 @@ export default {
         },
         getPosts() {
             this.$store.dispatch('users/getPosts', { username: this.username })
-        },
+        }
     }
 }
 </script>

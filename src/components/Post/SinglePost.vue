@@ -8,25 +8,30 @@
             </div>
             <div class="w-full flex items-start justify-between">
                 <section class="w-full">
-                    <span class="font-semibold text-slate-700 mr-2">{{ dataPost.user.name }}</span>
+                    <div>
+                        <span class="font-semibold text-slate-700 mr-2">{{ dataPost.user.name }}</span>
                     
-                    <router-link
-                        :to="{ name: 'user.show', params: { username: dataPost.user.username } }"
-                        class="text-slate-400">
-                            @{{ dataPost.user.username }}
-                    </router-link>
-                    
-                    <span class="text-slate-400 mx-1">&bull;</span>
-                    <span class="text-slate-400">{{ $moment(dataPost.created_at).format('DD MMMM YYYY') }}</span>
+                        <router-link
+                            :to="{ name: 'user.show', params: { username: dataPost.user.username } }"
+                            class="text-slate-400 block -mt-0.5 max-w-max">
+                                @{{ dataPost.user.username }}
+                        </router-link>
+                    </div>
 
                     <p class="py-3">{{ dataPost.body }}</p>
+
+                    <div class="mb-2">
+                        <span class="text-slate-400">{{ $moment(dataPost.created_at).format('HH:mm') }}</span>
+                        <span class="text-slate-300 mx-1">&bull;</span>
+                        <span class="text-slate-400">{{ $moment(dataPost.created_at).format('DD MMMM YYYY') }}</span>
+                    </div>
                     
                     <footer class="border-t border-slate-100 pt-2 flex items-center space-x-4 text-slate-400">
-                        <div class="flex space-x-1 items-center">
-                            <svg class="w-5 h-5 flex-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M20.16,5A6.29,6.29,0,0,0,12,4.36a6.27,6.27,0,0,0-8.16,9.48l6.21,6.22a2.78,2.78,0,0,0,3.9,0l6.21-6.22A6.27,6.27,0,0,0,20.16,5Zm-1.41,7.46-6.21,6.21a.76.76,0,0,1-1.08,0L5.25,12.43a4.29,4.29,0,0,1,0-6,4.27,4.27,0,0,1,6,0,1,1,0,0,0,1.42,0,4.27,4.27,0,0,1,6,0A4.29,4.29,0,0,1,18.75,12.43Z"/></svg>
-                            <span class="text-xs">2.100</span>
-                        </div>
-                        
+                        <TogglePostLike
+                            :post="dataPost"
+                            :user="user"
+                        />
+
                         <div class="flex space-x-1 items-center">
                             <router-link
                                 :to="{ name: 'post.show', params: { username: dataPost.user.username, id: dataPost.id } }">
@@ -74,11 +79,13 @@
 
 <script>
 import EditPostModal from '@/components/Post/EditPostModal'
+import TogglePostLike from '@/components/Like/TogglePostLike'
 
 export default {
     name: 'SinglePost',
     components: {
-        EditPostModal
+        EditPostModal,
+        TogglePostLike
     },
     props: {
         post: {
@@ -88,7 +95,7 @@ export default {
         replies_count: {
             type: Number,
             required: true
-        },
+        }
     },
     created: function() {
         let self = this;
