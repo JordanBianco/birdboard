@@ -58,7 +58,7 @@ export default {
     data() {
         return {
             user: {
-                email: 'hammes.yasmin@example.org',
+                email: 'udavis@example.org',
                 password: 'password'
             },
             showPassword: false

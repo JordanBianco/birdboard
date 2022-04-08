@@ -37,3 +37,8 @@ export const ADD_LIKE_TO_POST = (_, post) => {
 export const REMOVE_LIKE_FROM_POST = (_, post) => {
     post.likes_count = post.likes_count - 1
 }
+
+// export const DECREASE_FROM_FOLLOWING_LIST = (state) => {
+//     // E diminuisco in numero dei following dell'utente loggato
+//     state.user.following_count = state.user.following_count - 1
+// }

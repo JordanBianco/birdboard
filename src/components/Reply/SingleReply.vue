@@ -5,18 +5,23 @@
         </div>
         <div class="w-full flex items-start justify-between">
             <section class="w-full">
-                <span class="font-semibold text-slate-700 mr-2">{{ dataReply.user.name }}</span>
-                
-                <router-link
-                    :to="{ name: 'user.show', params: { username: dataReply.user.username } }"
-                    class="text-slate-400">
-                        @{{ dataReply.user.username }}
-                </router-link>
-                
-                <span class="text-slate-400 mx-1">&bull;</span>
-                <span class="text-slate-400">{{ $moment(dataReply.created_at).format('DD MMMM YYYY') }}</span>
+                <div>
+                    <span class="font-semibold text-slate-700 mr-2">{{ dataReply.user.name }}</span>
+
+                    <router-link
+                        :to="{ name: 'user.show', params: { username: dataReply.user.username } }"
+                        class="text-slate-400 block -mt-0.5 max-w-max">
+                            @{{ dataReply.user.username }}
+                    </router-link>
+                </div>
 
                 <p class="py-3">{{ dataReply.body }}</p>
+
+                <div class="mb-2">
+                    <span class="text-slate-400">{{ $moment(dataReply.created_at).format('HH:mm') }}</span>
+                    <span class="text-slate-300 mx-1">&bull;</span>
+                    <span class="text-slate-400">{{ $moment(dataReply.created_at).format('DD MMMM YYYY') }}</span>
+                </div>
                 
                 <footer class="border-t border-slate-100 pt-2 flex items-center space-x-4 text-slate-400">
                     <ToggleReplyLike

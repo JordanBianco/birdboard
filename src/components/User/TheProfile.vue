@@ -12,16 +12,18 @@
                         <span class="text-slate-400 block">@{{ user.username }}</span>
                     </div>
 
-                    <div class="flex items-center space-x-2">
+                    <div>
                         <router-link
                             v-if="loggedInUser && user.id === loggedInUser.id"
                             :to="{ name: 'user.settings.profile', params: { username: user.username }}"
-                            class="text-sm bg-white hover:text-slate-500 border border-slate-200 text-slate-400 transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
+                            class="text-sm bg-white hover:text-slate-500 border border-slate-300 text-slate-400 transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
                                 Modifica
                         </router-link>
-                        <button class="text-sm bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
-                            Segui
-                        </button>
+
+                        <ToggleFollow
+                            :user="user"
+                            :loggedInUser="loggedInUser"
+                        />
                     </div>
                 </div>
             </header>
@@ -34,9 +36,19 @@
                 </p>
 
                 <div class="flex items-center space-x-4">
-                    <p><span class="text-slate-600 font-semibold">{{ posts_count }}</span> Post</p>
-                    <p><span class="text-slate-600 font-semibold">100</span> Follower</p>
-                    <p><span class="text-slate-600 font-semibold">4</span> Seguiti</p>
+                    <div><span class="text-slate-600 font-semibold text-base">{{ posts_count }}</span> Post</div>
+                    
+                    <FollowersList
+                        :user="user"
+                        :loggedInUser="loggedInUser"
+                        :followers="followers"
+                    />
+
+                    <FollowingList
+                        :user="user"
+                        :loggedInUser="loggedInUser"
+                        :following="following"
+                    />
                 </div>
             </div>
         </section>
@@ -44,8 +56,17 @@
 </template>
 
 <script>
+import ToggleFollow from '@/components/User/ToggleFollow'
+import FollowingList from '@/components/User/FollowingList'
+import FollowersList from '@/components/User/FollowersList'
+
 export default {
     name: 'TheProfile',
+    components: {
+        ToggleFollow,
+        FollowingList,
+        FollowersList
+    },
     props: {
         user: {
             type: Object,
@@ -58,7 +79,15 @@ export default {
         posts_count: {
             type: Number,
             required: true
-        }
+        },
+        followers: {
+            type: [Object, Array],
+            required: true
+        },
+        following: {
+            type: [Object, Array],
+            required: true
+        },
     }
 }
 </script>

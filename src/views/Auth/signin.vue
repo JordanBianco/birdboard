@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-md mx-auto">
+    <div class="max-w-md mx-auto py-10">
         <h2 class="text-xl font-semibold">Accedi</h2>
         <SigninForm />
     </div>

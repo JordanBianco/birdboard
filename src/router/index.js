@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
 	if (to.meta.auth && !store.state.auth.loggedIn) next({ name: 'signin' })
 	else next()
 
-	if (to.meta.guest && store.state.auth.loggedIn) next({ name: 'dashboard' })
+	if (to.meta.guest && store.state.auth.loggedIn) next({ name: 'home' })
 	else next()
 })
 
