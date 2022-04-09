@@ -59,6 +59,16 @@ export default {
         this.getPost()
         this.getReplies()
     },
+    watch: {
+        id : {
+            handler() {
+                this.getPost()
+                this.getReplies()
+            },
+            deep: true,
+            immediate: true
+        }
+    },
     computed: {
         user() {
             return this.$store.state.auth.user

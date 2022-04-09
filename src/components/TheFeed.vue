@@ -18,11 +18,17 @@ import SinglePost from '@/components/Post/SinglePost'
 
 export default {
     name: 'TheFeed',
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    },
     components: {
         SinglePost
     },
     mounted() {
-        this.$store.dispatch('feed/getAll')
+        this.$store.dispatch('feed/getAll', { id: this.user.id})
     },
     computed: {
         posts() {

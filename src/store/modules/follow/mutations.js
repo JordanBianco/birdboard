@@ -28,35 +28,44 @@ export const ADD_FOLLOWING = (state, {user, loggedInUser}) => {
         name: loggedInUser.name,
         username: loggedInUser.username
     })
+
+    user.followers_count = user.followers_count + 1
 }
 
-export const REMOVE_FOLLOWING = (state, {user, loggedInUser}) => {
-    // Rimuovo l'utente dalla lista dei following dell'utente loggato
-    let followingUser
-
-    followingUser = state.loggedInUserFollowing.find(u => {
-        return u.id === user.id
+export const REMOVE_FOLLOWING = (state, {followed, user, value}) => {
+    // Rimuovo l'utente sia dalla lista dei following (che mostro nella dashboard)
+    let followedInList
+    followedInList = state.following.find(f => {
+        return f.id === followed.id
     })
+    state.following.splice(state.following.indexOf(followedInList), 1)
 
-    state.loggedInUserFollowing.splice(state.loggedInUserFollowing.indexOf(followingUser), 1)
-
-    // Rimuovo dalla lista dei followers dell'utente, l'utente attualmente loggato
-    let follower
-
-    follower = state.followers.find(u => {
-        return u.id === loggedInUser.id
+    // sia dalla lista dei following salvata nel persisted.state
+    let followedInPersisted
+    followedInPersisted = state.loggedInUserFollowing.find(f => {
+        return f.id === followed.id
     })
-
-    state.followers.splice(state.followers.indexOf(follower), 1)
+    state.loggedInUserFollowing.splice(state.loggedInUserFollowing.indexOf(followedInPersisted), 1)
+    
+    // DIPENDE DA DOVE SI ARRIVA
+    if (value === false) {
+        // SE DAL PROFILO DELL'UTENTE CHE SMETTO DI SEGUIRE, DIMINUISCO IL NUMERO DEI FOLLOWER DI 1
+        followed.followers_count = followed.followers_count - 1
+    } else {
+        // SE DAL PROFILO PERSONALE, DIMINUISCO IL NUMERO DEI SEGUITI (FOLLOWING ) DI 1
+        // E RIMUOVO L'UTENTE CHE NON SEGUO PIU DALLA LISTA DEL PERSISTED.STATE
+        user.following_count = user.following_count - 1
+    }
 }
 
-export const REMOVE_FOLLOWER = (state, {user, loggedInUser}) => {
-    // Rimuovo l'utente dalla lista dei following dell'utente loggato
-    let follower
+// Rimuovo l'utente dalla lista dei followers dell'utente loggato e diminuisco il numero di 1
+export const REMOVE_FOLLOWER = (state, {follower, user}) => {
+    let followerInList
 
-    follower = state.loggedInUserFollowers.find(u => {
-        return u.id === user.id
+    followerInList = state.followers.find(f => {
+        return f.id === follower.id
     })
 
-    state.loggedInUserFollowers.splice(state.loggedInUserFollowers.indexOf(follower), 1)
+    state.followers.splice(state.followers.indexOf(followerInList), 1)
+    user.followers_count = user.followers_count - 1
 }

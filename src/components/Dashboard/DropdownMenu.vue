@@ -47,8 +47,11 @@
 <script>
 export default {
     name: 'DropdownMenu',
-    mounted() {
-        this.$store.dispatch('auth/getUser')
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
     },
     created: function() {
         let self = this;
@@ -62,11 +65,6 @@ export default {
     data() {
         return {
             showMenu: false
-        }
-    },
-    computed: {
-        user() {
-            return this.$store.state.auth.user
         }
     },
     methods: {

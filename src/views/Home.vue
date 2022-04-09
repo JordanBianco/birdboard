@@ -1,20 +1,14 @@
 <template>
-	<div class="grid grid-cols-12 py-10">
+	<div v-if="user" class="grid grid-cols-12 py-10">
 		<section class="col-span-3">
-			<SidebarLinks />
+			<SidebarLinks :user="user" />
 		</section>
 		<section class="col-span-6 space-y-6">
-			<TheFeed />
+			<TheFeed :user="user" />
 		</section>
 		<section class="col-span-3">
 			<div class="px-4">
-				<div class="bg-slate-100 rounded-lg flex items-start space-x-3 p-3">
-					<div class="bg-slate-300 rounded-full w-8 h-8"></div>
-					<div>
-						<span class="block text-sm -mb-1.5">Jordan Bianco</span>
-						<span class="text-xs text-slate-400">@jordanbianco</span>
-					</div>
-				</div>
+				TOP POST CON PIU LIKE E PIU COMMENTI RANDOM 5 / 8
 			</div>
 		</section>
 	</div>
@@ -29,6 +23,18 @@ export default {
 	components: {
 		SidebarLinks,
 		TheFeed
-	}
+	},
+	// mounted() {
+	// 	window.Echo.private('App.Models.User.' + this.user.id)
+	// 		.notification((notification) => {
+	// 			console.log(test)
+	// 			console.log(notification.message)
+	// 		})
+	// },
+	computed: {
+        user() {
+            return this.$store.state.auth.user
+        }
+    }
 }
 </script>

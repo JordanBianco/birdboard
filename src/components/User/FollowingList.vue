@@ -4,10 +4,7 @@
             @click="openFollowingList()"
             class="cursor-pointer">
                 <span class="text-slate-600 font-semibold text-base">
-                    <!-- 
-                        Controllo: se sono loggato e la pagina su cui mi trovo è quella dell'utente loggato, prendo come riferimento loggedInUserFollowing
-                    -->
-                    {{ loggedInUser && loggedInUser.id === user.id ? this.$store.state.follow.loggedInUserFollowing.length : following.length }}
+                    {{ user.following_count }}
                 </span> Seguiti
         </p>
 
@@ -23,32 +20,37 @@
             class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
                 
                 <div class="text-sm bg-white border border-slate-200 rounded-lg shadow-lg" style="width: 440px">
-                    <header class="py-4 mb-2 border-b border-slate-200">
+                    <header class="py-4 border-b border-slate-200">
                         <h3 class="text-slate-500 text-base text-center">Profili seguiti</h3>
                     </header>
                     <section style="height:400px" class="overflow-y-auto">
-                        <div
-                            v-for="followed in loggedInUser && loggedInUser.id === user.id ? this.$store.state.follow.loggedInUserFollowing : following"
-                            :key="followed.id"
-                            class="flex items-center justify-between px-4 py-2">
-                                <div class="w-full flex items-center space-x-3">
-                                    <div class="w-8 h-8 rounded-full bg-slate-300"></div>
-                                    <div>
-                                        <span class="font-semibold text-slate-700 mr-2">{{ followed.name }}</span>
-                                
-                                        <router-link
-                                            :to="{ name: 'user.show', params: { username: followed.username } }"
-                                            class="text-slate-400 block -mt-0.5 max-w-max">
-                                                @{{ followed.username }}
-                                        </router-link>
+                        <div v-if="following && following.length != 0">
+                            <div
+                                v-for="followed in following"
+                                :key="followed.id"
+                                class="flex items-center justify-between px-4 py-3 odd:bg-slate-50">
+                                    <div class="w-full flex items-center space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-slate-300"></div>
+                                        <div>
+                                            <span class="font-semibold text-slate-700 mr-2">{{ followed.name }}</span>
+                                    
+                                            <router-link
+                                                :to="{ name: 'user.show', params: { username: followed.username } }"
+                                                class="text-slate-400 block -mt-0.5 max-w-max">
+                                                    @{{ followed.username }}
+                                            </router-link>
+                                        </div>
                                     </div>
-                                </div>
-                                <button
-                                    v-if="loggedInUser && loggedInUser.id === user.id"
-                                    @click="removeFollowing(followed)"
-                                    class="whitespace-nowrap text-xs bg-white hover:text-slate-500 border border-slate-300 text-slate-400 transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
-                                        Rimuovi
-                                </button>
+                                    <button
+                                        v-if="loggedInUser && loggedInUser.id === user.id"
+                                        @click="removeFollowing(followed)"
+                                        class="whitespace-nowrap text-xs bg-white hover:text-slate-500 border border-slate-300 text-slate-400 transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
+                                            Rimuovi
+                                    </button>
+                            </div>
+                        </div>
+                        <div v-else class="text-center p-10">
+                            Caricamento...
                         </div>
                     </section>
                 </div>
@@ -67,10 +69,6 @@ export default {
         loggedInUser: {
             type: Object,
             required: false
-        },
-        following: {
-            type: [Object, Array],
-            required: false
         }
     },
     data() {
@@ -78,17 +76,24 @@ export default {
             showFollowingList: false
         }
     },
+    computed: {
+        following() {
+            return this.$store.state.follow.following
+        },
+    },
     methods: {
         openFollowingList() {
             this.showFollowingList = true
+            this.$store.dispatch('follow/getUserFollowing', { username: this.user.username })
         },
         closeFollowingList() {
             this.showFollowingList = false
         },
-        removeFollowing(user) {
+        removeFollowing(followed) {
             this.$store.dispatch('follow/removeFollowing', {
-                user: user,
-                loggedInUser: this.loggedInUser
+                followed: followed,
+                user: this.user,
+                value: true
             })
         }
     }

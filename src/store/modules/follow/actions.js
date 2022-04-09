@@ -1,16 +1,5 @@
 import api from '@/apis/api'
 
-export const getLoggedInUserFollowers = async ({commit}, {username}) => {
-    try {
-        const res = await api.get('/user/' + username + '/followers')
-        if (res.status === 200) {
-            commit('GET_LOGGED_IN_USER_FOLLOWERS', res.data.data)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 export const getLoggedInUserFollowing = async ({commit}, {username}) => {
     try {
         const res = await api.get('/user/' + username + '/following')
@@ -59,25 +48,22 @@ export const addFollowing = async ({commit}, {user, loggedInUser}) => {
     }
 }
 
-export const removeFollowing = async ({commit}, {user, loggedInUser}) => {
+export const removeFollowing = async ({commit}, {followed, user, value}) => {
     try {
-        const res = await api.delete('/user/' + user.id + '/unfollow')
+        const res = await api.delete('/user/' + followed.id + '/unfollow')
         if (res.status === 200) {
-            // Rimuovo l'utente dalla lista following dell'utente attualmente loggato
-            // E rimuovo l'utente loggato dalla lista dei follower dell'utente appena seguito
-            commit('REMOVE_FOLLOWING', {user, loggedInUser})
+            commit('REMOVE_FOLLOWING', {followed, user, value})
         }
     } catch (error) {
         console.log(error)
     }
 }
 
-export const removeFollower = async ({commit}, {user, loggedInUser}) => {
+export const removeFollower = async ({commit}, {follower, user}) => {
     try {
-        const res = await api.delete('/user/' + user.id + '/remove-follower')
+        const res = await api.delete('/user/' + follower.id + '/remove-follower')
         if (res.status === 200) {
-            // Rimuovo l'utente dalla lista follower dell'utente attualmente loggato
-            commit('REMOVE_FOLLOWER', {user, loggedInUser})
+            commit('REMOVE_FOLLOWER', {follower, user})
         }
     } catch (error) {
         console.log(error)

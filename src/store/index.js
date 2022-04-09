@@ -10,13 +10,13 @@ import users from '@/store/modules/users' // cambiare in post
 import reply from '@/store/modules/reply'
 import like from '@/store/modules/like'
 import follow from '@/store/modules/follow'
+import notification from '@/store/modules/notification'
 
 const dataState = createPersistedState({
 	paths: [
 		'auth.loggedIn',
 		'auth.token',
 		'like.likes',
-		'follow.loggedInUserFollowers',
 		'follow.loggedInUserFollowing',
 	]
 })
@@ -32,7 +32,8 @@ export default new Vuex.Store({
 		users,
 		reply,
 		like,
-		follow
+		follow,
+		notification
 	},
 	plugins: [dataState],
 })

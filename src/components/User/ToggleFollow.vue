@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center space-x-2">
         <button
-            v-if="loggedInUser === null || loggedInUser.id !== user.id"
+            v-if="loggedInUser.id !== user.id"
             @click="toggleFollow()"
             :class="[ alreadyFollowing() ? 'bg-white hover:text-slate-500 border border-slate-300 text-slate-400 focus:outline-sky-200' : 'bg-sky-400 hover:bg-sky-500 text-white focus:outline-sky-200' ]"
             class="text-sm  transition rounded-full px-4 py-1.5  max-w-max">
@@ -25,20 +25,17 @@ export default {
     },
     methods: {
         toggleFollow() {
-            if (this.loggedInUser === null) {
-                this.$router.push({ name: 'signin' })
+            if (this.alreadyFollowing()) {
+                this.$store.dispatch('follow/removeFollowing', {
+                    followed: this.user,
+                    user: this.loggedInUser,
+                    value: false
+                })
             } else {
-                if (this.alreadyFollowing()) {
-                    this.$store.dispatch('follow/removeFollowing', {
-                        user: this.user,
-                        loggedInUser: this.loggedInUser
-                    })
-                } else {
-                    this.$store.dispatch('follow/addFollowing', {
-                        user: this.user,
-                        loggedInUser: this.loggedInUser
-                    })
-                }
+                this.$store.dispatch('follow/addFollowing', {
+                    user: this.user,
+                    loggedInUser: this.loggedInUser
+                })
             }
         },
         alreadyFollowing() {

@@ -9,7 +9,8 @@ const routes = [
 	{
 		path: '/',
 		name: 'home',
-		component: Home
+		component: Home,
+		meta: { auth: true }
 	},
 	{
 		path: '/signup',
@@ -23,21 +24,23 @@ const routes = [
 		component: () => import(/* webpackChunkName: "signin" */ '../views/Auth/signin.vue'),
 		meta: { guest: true }
 	},
-	// User Profile, profilo accessibile a chiunque
+	// User Profile
 	{
 		path: '/:username',
 		name: 'user.show',
 		component: () => import(/* webpackChunkName: "show" */ '../views/User/show.vue'),
-		props: true
+		props: true,
+		meta: { auth: true }
 	},
 	// User Posts
 	{
 		path: '/:username/post/:id',
 		name: 'post.show',
 		component: () => import(/* webpackChunkName: "post.show" */ '../views/User/Post/show.vue'),
-		props: true
+		props: true,
+		meta: { auth: true }
 	},
-	// Pagina per modificare i dati dell'utente loggato, accessibile solo all'utente loggato
+	// Pagina per modificare i dati dell'utente loggato
 	{
 		path: '/:username/settings',
 		component: () => import(/* webpackChunkName: "settings.index" */ '../views/User/Settings/index.vue'),

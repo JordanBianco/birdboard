@@ -22,24 +22,37 @@
                         Iscriviti
                 </router-link>
             </div>
-            <div v-else>
-                <DropdownMenu />
+            <div
+                v-if="user && loggedIn"
+                class="flex items-center space-x-3">
+                    <NotificationComponent :user="user" />
+                    <DropdownMenu :user="user" />
             </div>
         </div>
     </nav>
 </template>
 
 <script>
+import NotificationComponent from '@/components/Dashboard/NotificationComponent'
 import DropdownMenu from '@/components/Dashboard/DropdownMenu'
 
 export default {
     name: 'TheNavbar',
     components: {
+        NotificationComponent,
         DropdownMenu
+    },
+    mounted() {
+        if (this.loggedIn && this.user == null) {
+            this.$store.dispatch('auth/getUser')
+        }
     },
     computed: {
         loggedIn() {
             return this.$store.state.auth.loggedIn
+        },
+        user() {
+            return this.$store.state.auth.user
         }
     }
 }

@@ -1,14 +1,12 @@
 <template>
     <div
-        v-if="user && posts && followers && following"
+        v-if="user && posts"
         class="lg:grid lg:grid-cols-12 lg:space-x-10">
             <section class="lg:col-span-9">
                 <TheProfile
                     :user="user"
                     :posts_count="posts.length"
                     :loggedInUser="loggedInUser"
-                    :followers="followers"
-                    :following="following"
                 />
 
                 <div class="space-y-8 py-10">
@@ -54,16 +52,12 @@ export default {
     mounted() {
         this.getUser()
         this.getPosts()
-        this.getFollowers()
-        this.getFollowing()
     },
     watch: {
         username : {
             handler() {
                 this.getUser()
                 this.getPosts()
-                this.getFollowers()
-                this.getFollowing()
             },
             deep: true,
             immediate: true
@@ -76,12 +70,6 @@ export default {
         posts() {
             return this.$store.state.users.posts
         },
-        followers() {
-            return this.$store.state.follow.followers
-        },
-        following() {
-            return this.$store.state.follow.following
-        },
         loggedInUser() {
             return this.$store.state.auth.user
         }
@@ -92,12 +80,6 @@ export default {
         },
         getPosts() {
             this.$store.dispatch('users/getPosts', { username: this.username })
-        },
-        getFollowers() {
-            this.$store.dispatch('follow/getUserFollowers', { username: this.username })
-        },
-        getFollowing() {
-            this.$store.dispatch('follow/getUserFollowing', { username: this.username })
         }
     }
 }
