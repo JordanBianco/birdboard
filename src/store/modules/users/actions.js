@@ -12,12 +12,12 @@ export const getUser = async ({commit}, {username}) => {
     }
 }
 
-export const getPosts = async ({commit}, {username}) => {
-    commit('GET_POSTS', null)
+export const getPosts = async ({commit}, {username, page}) => {
     try {
-        const res = await api.get('/user/' + username + '/posts');
+        const res = await api.get('/user/' + username + '/posts?page=' + page);
         if (res.status === 200) {
-            commit('GET_POSTS', res.data.data)
+            commit('GET_POSTS', res.data)
+            commit('GET_LAST_PAGE', res.data.meta.last_page)
         }        
     } catch (error) {
         console.log(error)

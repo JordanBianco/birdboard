@@ -1,33 +1,26 @@
 <template>
-    <div
-        v-if="user && posts"
-        class="lg:grid lg:grid-cols-12 lg:space-x-10">
-            <section class="lg:col-span-9">
-                <TheProfile
-                    :user="user"
-                    :posts_count="posts.length"
-                    :loggedInUser="loggedInUser"
+    <div v-if="user">
+        <TheProfile
+            :user="user"
+            :loggedInUser="loggedInUser"
+        />
+
+        <div class="space-y-8 py-10">
+            <CreatePost
+                v-if="loggedInUser && loggedInUser.id === user.id"
+            />
+
+            <div v-if="posts && posts.length != 0">
+                <SinglePost
+                    v-for="post in posts"
+                    :key="post.id"
+                    :post="post"
+                    :replies_count="post.replies_count"
                 />
+            </div>
 
-                <div class="space-y-8 py-10">
-                    <CreatePost
-                        v-if="loggedInUser && loggedInUser.id === user.id"
-                    />
-
-                    <div v-if="posts && posts.length != 0">
-                        <SinglePost
-                            v-for="post in posts"
-                            :key="post.id"
-                            :post="post"
-                            :replies_count="post.replies_count"
-                        />
-                    </div>
-                </div>
-            </section>
-
-            <section class="lg:col-span-3">
-                prova
-            </section>
+            <div v-if="posts && posts.length" v-observe-visibility="visibilityChanged"></div>
+        </div>
 	</div>
 </template>
 
@@ -50,17 +43,23 @@ export default {
         SinglePost
     },
     mounted() {
+        this.$store.commit('users/EMPTY_POSTS')
         this.getUser()
         this.getPosts()
     },
     watch: {
-        username : {
+        "$route.params.username" : {
             handler() {
+                this.$store.commit('users/EMPTY_POSTS')
+                this.page = 1
                 this.getUser()
                 this.getPosts()
-            },
-            deep: true,
-            immediate: true
+            }
+        }
+    },
+    data() {
+        return {
+            page: 1
         }
     },
     computed: {
@@ -69,6 +68,9 @@ export default {
         },
         posts() {
             return this.$store.state.users.posts
+        },
+        lastPage() {
+            return this.$store.state.users.lastPage
         },
         loggedInUser() {
             return this.$store.state.auth.user
@@ -79,7 +81,16 @@ export default {
             this.$store.dispatch('users/getUser', { username: this.username })
         },
         getPosts() {
-            this.$store.dispatch('users/getPosts', { username: this.username })
+            this.$store.dispatch('users/getPosts', { 
+                username: this.username,
+                page: this.page
+            })
+        },
+        visibilityChanged(isVisible) {
+            if (! isVisible) { return }
+            if (this.page >= this.lastPage) { return }
+            this.page = this.page + 1
+            this.getPosts()
         }
     }
 }

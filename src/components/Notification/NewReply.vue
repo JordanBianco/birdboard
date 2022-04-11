@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center space-x-2">
-        <div v-if="notification.read_at === null" class="bg-sky-400 w-1 h-1 rounded-full"></div>
+        <div v-if="notification.read_at === null" class="bg-sky-400 w-1.5 h-1.5 rounded-full"></div>
         <div>
             <router-link
                 class="block"

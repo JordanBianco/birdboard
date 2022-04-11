@@ -4,10 +4,14 @@ import router from './router'
 import store from './store'
 import './assets/tailwind.css'
 import moment from 'moment'
+import VueObserveVisibility from 'vue-observe-visibility'
+
 import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
 
 Vue.prototype.$moment = moment
+
+Vue.use(VueObserveVisibility)
 
 Vue.config.productionTip = false
 

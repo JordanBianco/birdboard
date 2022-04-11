@@ -35,9 +35,7 @@
                     <span>Iscrizione a {{ $moment(user.created_at).format('MMMM YYYY') }}</span>
                 </p>
 
-                <div class="flex items-center space-x-4">
-                    <div><span class="text-slate-600 font-semibold text-base">{{ posts_count }}</span> Post</div>
-                    
+                <div class="flex items-center space-x-4">                    
                     <FollowersList
                         :user="user"
                         :loggedInUser="loggedInUser"
@@ -73,10 +71,6 @@ export default {
         loggedInUser: {
             type: [Object, null],
             required: false
-        },
-        posts_count: {
-            type: Number,
-            required: true
         }
     }
 }
