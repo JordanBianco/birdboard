@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center space-x-2">
         <button
-            v-if="loggedInUser.id !== user.id"
+            v-if="loggedInUser && loggedInUser.id !== user.id"
             @click="toggleFollow()"
             :class="[ alreadyFollowing() ? 'bg-white hover:text-slate-500 border border-slate-300 text-slate-400 focus:outline-sky-200' : 'bg-sky-400 hover:bg-sky-500 text-white focus:outline-sky-200' ]"
             class="text-sm  transition rounded-full px-4 py-1.5  max-w-max">

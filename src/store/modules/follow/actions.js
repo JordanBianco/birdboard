@@ -2,7 +2,7 @@ import api from '@/apis/api'
 
 export const getLoggedInUserFollowing = async ({commit}, {username}) => {
     try {
-        const res = await api.get('/user/' + username + '/following')
+        const res = await api.get('/user/' + username + '/all-following')
         if (res.status === 200) {
             commit('GET_LOGGED_IN_USER_FOLLOWING', res.data.data)
         }
@@ -11,24 +11,24 @@ export const getLoggedInUserFollowing = async ({commit}, {username}) => {
     }
 }
 
-export const getUserFollowers = async ({commit}, {username}) => {
-    commit('GET_USER_FOLLOWERS', null)
+export const getUserFollowers = async ({commit}, {username, page}) => {
     try {
-        const res = await api.get('/user/' + username + '/followers')
+        const res = await api.get('/user/' + username + '/followers?page=' + page)
         if (res.status === 200) {
-            commit('GET_USER_FOLLOWERS', res.data.data)
+            commit('GET_USER_FOLLOWERS', res.data)
+            commit('GET_LAST_PAGE', res.data.meta.last_page)
         }
     } catch (error) {
         console.log(error)
     }
 }
 
-export const getUserFollowing = async ({commit}, {username}) => {
-    commit('GET_USER_FOLLOWING', null)
+export const getUserFollowing = async ({commit}, {username, page}) => {
     try {
-        const res = await api.get('/user/' + username + '/following')
+        const res = await api.get('/user/' + username + '/following?page=' + page)
         if (res.status === 200) {
-            commit('GET_USER_FOLLOWING', res.data.data)
+            commit('GET_USER_FOLLOWING', res.data)
+            commit('GET_LAST_PAGE', res.data.meta.last_page)
         }
     } catch (error) {
         console.log(error)
@@ -39,8 +39,6 @@ export const addFollowing = async ({commit}, {user, loggedInUser}) => {
     try {
         const res = await api.post('/user/' + user.id + '/follow')
         if (res.status === 200) {
-            // Aggiungo l'utente da seguire alla lista following dell'utente attualmente loggato
-            // E aggiungo l'utente loggato alla lista dei seguiti dell'utente appena seguito
             commit('ADD_FOLLOWING', {user, loggedInUser})
         }
     } catch (error) {

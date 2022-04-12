@@ -18,7 +18,6 @@
                 <header class="border-b border-slate-200 p-3">
                     <span class="block font-semibold">Notifiche</span>
                     <router-link
-                        v-if="lastNotifications.length != 0"
                         to=""
                         class="text-xs block text-slate-400 -mt-0.5 hover:underline transition">visualizza tutte</router-link>
                 </header>
@@ -34,7 +33,7 @@
                     </div>
                 </div>
                 <div v-else>
-                    <p>Non hai nuove notifiche</p>
+                    <p class="p-3 text-sm text-slate-600">Non hai nuove notifiche</p>
                 </div>
         </div>
     </div>

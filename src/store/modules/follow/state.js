@@ -1,5 +1,6 @@
 export default {
     followers: [],
     following: [],
-    loggedInUserFollowing: [], // salvare nel pers state
+    loggedInUserFollowing: [], // salvato nel pers state
+    lastPage: null
 }
