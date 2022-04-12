@@ -1,11 +1,11 @@
 import api from '@/apis/api'
 
-export const getReplies = async ({commit}, {id}) => {
-    commit('GET_REPLIES', null)
+export const getReplies = async ({commit}, {id, page}) => {
     try {
-        const res = await api.get('/post/' + id + '/replies');
+        const res = await api.get('/post/' + id + '/replies?page=' + page);
         if (res.status === 200) {
-            commit('GET_REPLIES', res.data.data)
+            commit('GET_REPLIES', res.data)
+            commit('GET_LAST_PAGE', res.data.meta.last_page)
         }        
     } catch (error) {
         console.log(error)
@@ -16,7 +16,10 @@ export const storeReply = async ({commit}, {post, reply}) => {
     try {
         const res = await api.post('/post/' + post.id + '/replies', reply);
         if (res.status === 201) {
-            commit('STORE_REPLY', res.data.data);
+            commit('STORE_REPLY', {
+                reply: res.data.data,
+                post: post
+            });
             commit('SET_SUCCESS_STATUS', true);
             commit('SET_ERRORS', [])
         }
@@ -40,11 +43,14 @@ export const updateReply = async ({commit}, {id, reply}) => {
     }
 }
 
-export const deleteReply = async ({commit}, {id, reply}) => {
+export const deleteReply = async ({commit}, {post, reply}) => {
     try {
-        const res = await api.delete('/post/' + id + '/replies/' + reply.id);
+        const res = await api.delete('/post/' + post.id + '/replies/' + reply.id);
         if (res.status === 200) {
-            commit('DELETE_REPLY', reply);
+            commit('DELETE_REPLY', {
+                post: post,
+                reply: reply
+            });
         }
     } catch (error) {
         console.log(error)

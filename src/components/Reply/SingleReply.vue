@@ -90,7 +90,11 @@ export default {
         reply: {
             type: Object,
             required: true
-        }
+        },
+        post: {
+            type: Object,
+            required: true
+        }        
     },
     created: function() {
         let self = this;
@@ -133,7 +137,7 @@ export default {
         },
         deleteReply() {
             this.$store.dispatch('reply/deleteReply', {
-                id: this.$route.params.id,
+                post: this.post,
                 reply: this.reply
             })
         },
