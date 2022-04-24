@@ -23,10 +23,10 @@
                 </router-link>
             </div>
             <div
-                v-if="user && loggedIn"
+                v-else
                 class="flex items-center space-x-3">
-                    <NotificationComponent :user="user" />
-                    <DropdownMenu :user="user" />
+                    <NotificationComponent />
+                    <DropdownMenu />
             </div>
         </div>
     </nav>
@@ -42,17 +42,9 @@ export default {
         NotificationComponent,
         DropdownMenu
     },
-    mounted() {
-        if (this.loggedIn && this.user == null) {
-            this.$store.dispatch('auth/getUser')
-        }
-    },
     computed: {
         loggedIn() {
             return this.$store.state.auth.loggedIn
-        },
-        user() {
-            return this.$store.state.auth.user
         }
     }
 }

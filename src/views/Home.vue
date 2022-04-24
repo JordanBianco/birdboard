@@ -24,6 +24,10 @@ export default {
 		SidebarLinks,
 		TheFeed
 	},
+	beforeRouteLeave(to, from, next) {
+        this.emptyFeedPosts()
+        next()
+    },
 	// mounted() {
 	// 	window.Echo.private('App.Models.User.' + this.user.id)
 	// 		.notification((notification) => {
@@ -35,6 +39,11 @@ export default {
         user() {
             return this.$store.state.auth.user
         }
-    }
+    },
+	methods: {
+		emptyFeedPosts() {
+            this.$store.commit('feed/EMPTY_FEED_POSTS')
+        }
+	}
 }
 </script>

@@ -1,5 +1,7 @@
 <template>
-    <div class="text-sm bg-white border-t border-l border-r last:border-b border-slate-200 first:rounded-t-lg last:rounded-b-lg p-3 flex items-start space-x-3">
+    <div
+        :class="[ $route.hash.replace('#', '') == dataReply.id ? 'border-sky-300 border-b' : 'border-slate-200' ]"
+        class="text-sm bg-white border-t border-l border-r last:border-b first:rounded-t-lg last:rounded-b-lg p-3 flex items-start space-x-3">
         <div>
             <div class="bg-slate-200 rounded-full w-8 h-8"></div>
         </div>

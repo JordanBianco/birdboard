@@ -40,6 +40,14 @@ const routes = [
 		props: true,
 		meta: { auth: true }
 	},
+	// User Notification
+	{
+		path: '/:username/notifications',
+		name: 'notification.index',
+		component: () => import(/* webpackChunkName: "notification.index" */ '../views/User/Notification/index.vue'),
+		props: true,
+		meta: { auth: true }
+	},
 	// Pagina per modificare i dati dell'utente loggato
 	{
 		path: '/:username/settings',
@@ -67,7 +75,15 @@ const routes = [
 
 const router = new VueRouter({
 	routes,
-	mode: 'history'
+	mode: 'history',
+	// scrollBehavior(to, from, savedPosition) {
+	// 	if (to.hash) {
+	// 		return {
+	// 			el: to.hash,
+	// 			behavior: 'smooth'
+	// 		}
+	// 	}
+	// }
 })
 
 router.beforeEach((to, from, next) => {

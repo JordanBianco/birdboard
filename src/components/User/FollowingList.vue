@@ -44,7 +44,7 @@
                                     <button
                                         v-if="loggedInUser && loggedInUser.id === user.id"
                                         @click="removeFollowing(followed)"
-                                        class="whitespace-nowrap text-xs bg-white hover:text-slate-500 border border-slate-300 text-slate-400 transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
+                                        class="whitespace-nowrap text-xs bg-white hover:bg-red-500 border border-slate-300 hover:border-red-600 text-slate-400 hover:text-white transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
                                             Rimuovi
                                     </button>
                             </div>

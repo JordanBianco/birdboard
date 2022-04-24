@@ -16,6 +16,7 @@ const dataState = createPersistedState({
 	paths: [
 		'auth.loggedIn',
 		'auth.token',
+		'auth.user',
 		'like.likes',
 		'follow.loggedInUserFollowing',
 	]

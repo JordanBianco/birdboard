@@ -14,26 +14,33 @@
 
         <div
             v-if="showNotificationMenu"
-            class="absolute top-12 right-0 w-64 bg-white border border-slate-200 rounded-lg z-20">
+            class="absolute top-12 right-0 w-80 bg-white border border-slate-200 rounded-lg z-20">
                 <header class="border-b border-slate-200 p-3">
                     <span class="block font-semibold">Notifiche</span>
                     <router-link
-                        to=""
-                        class="text-xs block text-slate-400 -mt-0.5 hover:underline transition">visualizza tutte</router-link>
+                        @click.native="toggleNotificationMenu()"
+                        :to="{ name: 'notification.index', params: { username: user.username }}"
+                        class="text-xs block text-slate-400 -mt-0.5 hover:underline transition">
+                            visualizza tutte
+                    </router-link>
                 </header>
-                <div v-if="lastNotifications.length != 0">
+                <div v-if="latestNotifications.length != 0">
                     <div
-                        v-for="notification in lastNotifications"
+                        v-for="notification in latestNotifications"
                         :key="notification.id"
-                        class="border-b last:border-0 p-3 text-xs text-slate-600">
+                        class="border-b last:border-b-0 last:rounded-b-lg"
+                        :class="[ notification.read_at === null ? 'bg-slate-100' : '' ]">
                             <component
                                 :is="notificationType(notification)"
                                 :notification="notification"
+                                :user="user"
+                                :dropdown="true"
+                                class="p-3 text-slate-600 text-xs"
                                 @closeNotificationMenu="closeNotificationMenu"></component>
                     </div>
                 </div>
                 <div v-else>
-                    <p class="p-3 text-sm text-slate-600">Non hai nuove notifiche</p>
+                    <p class="p-3 text-sm text-slate-500">Non hai nuove notifiche</p>
                 </div>
         </div>
     </div>
@@ -44,15 +51,12 @@ export default {
     name: 'NotificationComponent',
     components: {
         NewReply: () => import ('@/components/Notification/NewReply'),
-    },
-    props: {
-        user: {
-            type: Object,
-            required: true
-        }
+        NewLikeToPost: () => import ('@/components/Notification/NewLikeToPost'),
+        NewLikeToReply: () => import ('@/components/Notification/NewLikeToReply'),
+        NewFollower: () => import ('@/components/Notification/NewFollower')
     },
     mounted() {
-        this.$store.dispatch('notification/getLastNotifications', { id: this.user.id })
+        this.$store.dispatch('notification/getlatestNotifications', { id: this.user.id })
     },
     created: function() {
         let self = this;
@@ -69,11 +73,14 @@ export default {
         }
     },
     computed: {
-        lastNotifications() {
-            return this.$store.state.notification.lastNotifications
+        user() {
+            return this.$store.state.auth.user
+        },
+        latestNotifications() {
+            return this.$store.state.notification.latestNotifications
         },
         unreadNotifications() {
-            return this.lastNotifications.filter(n => {
+            return this.latestNotifications.filter(n => {
                 return n.read_at === null
             }).length
         }

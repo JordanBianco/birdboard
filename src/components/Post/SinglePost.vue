@@ -20,7 +20,7 @@
 
                     <p class="py-3">{{ dataPost.body }}</p>
 
-                    <div class="mb-2">
+                    <div class="mb-2 text-xs">
                         <span class="text-slate-400">{{ $moment(dataPost.created_at).format('HH:mm') }}</span>
                         <span class="text-slate-300 mx-1">&bull;</span>
                         <span class="text-slate-400">{{ $moment(dataPost.created_at).format('DD MMMM YYYY') }}</span>

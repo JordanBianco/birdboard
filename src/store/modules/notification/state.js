@@ -1,3 +1,6 @@
 export default {
-    lastNotifications: []
+    latestNotifications: [],
+    notifications: [],
+    lastPage: null,
+    total: null
 }

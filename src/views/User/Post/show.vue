@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="post"
-        class="max-w-3xl mx-auto space-y-8 py-10">
+        class="max-w-lg mx-auto space-y-8 py-10">
 
         <SinglePost
             :post="post"
@@ -25,6 +25,7 @@
 
         <div v-if="replies && replies.length != 0">
             <SingleReply
+                :id="reply.id"
                 v-for="reply in replies"
                 :key="reply.id"
                 :reply="reply"
@@ -81,6 +82,34 @@ export default {
                 this.getReplies()
             }
         },
+        post: {
+            handler() {
+                setTimeout(() => {
+                    if (this.$route.hash) {
+                        let id = this.$route.hash.replace('#', '')
+                        if (document.getElementById(id) != null) {
+                            document.getElementById(id).scrollIntoView({ 
+                                behavior: "smooth",
+                                block: "end"
+                            })
+                        }
+                    }
+                }, 1000);
+            }
+        },
+        '$route.hash' : {
+            handler() {
+                setTimeout(() => {
+                    let id = this.$route.hash.replace('#', '')
+                    if (document.getElementById(id) != null) {
+                        document.getElementById(id).scrollIntoView({ 
+                            behavior: "smooth",
+                            block: "end"
+                        })
+                    }
+                }, 1000);
+            }
+        }
     },
     data() {
         return {

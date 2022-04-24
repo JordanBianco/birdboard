@@ -1,27 +1,26 @@
 <template>
     <div class="flex items-start space-x-4">
         <div class="flex items-center space-x-3 w-full">
-
+            
             <svg
                 :class="[ notification.read_at === null ? 'text-sky-400' : 'text-slate-400' ]"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle w-4.5 h-4.5 flex-none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                class="w-4.5 h-4.5 flex-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M20.16,5A6.29,6.29,0,0,0,12,4.36a6.27,6.27,0,0,0-8.16,9.48l6.21,6.22a2.78,2.78,0,0,0,3.9,0l6.21-6.22A6.27,6.27,0,0,0,20.16,5Zm-1.41,7.46-6.21,6.21a.76.76,0,0,1-1.08,0L5.25,12.43a4.29,4.29,0,0,1,0-6,4.27,4.27,0,0,1,6,0,1,1,0,0,0,1.42,0,4.27,4.27,0,0,1,6,0A4.29,4.29,0,0,1,18.75,12.43Z"/></svg>
 
             <div>
                 <span style="font-size: 11px" class="block text-slate-400 mt-0.5">{{ $moment(notification.created_at).format('HH:mm ' + '&bull;' + ' DD MMMM YYYY') }}</span>
-                <span class="block text-sm text-slate-600">Nuovo commento</span>
+                <span class="block text-sm text-slate-600">Nuovo Mi piace</span>
                 <router-link
                     class="block text-slate-400"
                     @click.native="markAsRead()"
-                    :to="{
+                    :to="{ 
                         name: 'post.show',
                         params: {
                             username: notification.data.post.user.username,
                             id: notification.data.post.id
-                        },
-                        hash: '#' + notification.data.reply.id
+                        }
                     }"
                 >
-                    {{ notification.data.reply.user.name }} ha commentato il tuo post
+                    {{ notification.data.user.name }} ha messo mi piace al tuo post
                 </router-link>
             </div>
         </div>
@@ -39,7 +38,7 @@
 import NotificationActionMenu from '@/components/Notification/NotificationActionMenu'
 
 export default {
-    name: 'NewReply',
+    name: 'NewLikeToPost',
     components: {
         NotificationActionMenu
     },
