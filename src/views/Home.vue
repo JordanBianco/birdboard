@@ -1,15 +1,13 @@
 <template>
-	<div v-if="user" class="grid grid-cols-12 py-10">
-		<section class="col-span-3">
+	<div v-if="user" class="flex space-x-10 py-10">
+		<section class="w-1/4">
 			<SidebarLinks :user="user" />
 		</section>
-		<section class="col-span-6 space-y-6">
+		<section class="w-2/4">
 			<TheFeed :user="user" />
 		</section>
-		<section class="col-span-3">
-			<div class="px-4">
-				TOP POST CON PIU LIKE E PIU COMMENTI RANDOM 5 / 8
-			</div>
+		<section class="w-1/4">
+			TOP POST CON PIU LIKE E PIU COMMENTI RANDOM 5 / 8
 		</section>
 	</div>
 </template>
@@ -28,13 +26,6 @@ export default {
         this.emptyFeedPosts()
         next()
     },
-	// mounted() {
-	// 	window.Echo.private('App.Models.User.' + this.user.id)
-	// 		.notification((notification) => {
-	// 			console.log(test)
-	// 			console.log(notification.message)
-	// 		})
-	// },
 	computed: {
         user() {
             return this.$store.state.auth.user

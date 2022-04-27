@@ -32,7 +32,7 @@
                                     <div class="w-full flex items-center space-x-3">
                                         <div class="w-8 h-8 rounded-full bg-slate-300"></div>
                                         <div>
-                                            <span class="font-semibold text-slate-700 mr-2">{{ followed.name }}</span>
+                                            <span class="font-semibold text-slate-600 mr-2">{{ followed.name }}</span>
                                     
                                             <router-link
                                                 :to="{ name: 'user.show', params: { username: followed.username } }"

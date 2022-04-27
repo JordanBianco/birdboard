@@ -48,6 +48,14 @@ const routes = [
 		props: true,
 		meta: { auth: true }
 	},
+	// User Chat
+	{
+		path: '/:username/chat',
+		name: 'chat.index',
+		component: () => import(/* webpackChunkName: "chat.index" */ '../views/User/Chat/index.vue'),
+		props: true,
+		meta: { auth: true }
+	},
 	// Pagina per modificare i dati dell'utente loggato
 	{
 		path: '/:username/settings',
@@ -75,15 +83,7 @@ const routes = [
 
 const router = new VueRouter({
 	routes,
-	mode: 'history',
-	// scrollBehavior(to, from, savedPosition) {
-	// 	if (to.hash) {
-	// 		return {
-	// 			el: to.hash,
-	// 			behavior: 'smooth'
-	// 		}
-	// 	}
-	// }
+	mode: 'history'
 })
 
 router.beforeEach((to, from, next) => {
