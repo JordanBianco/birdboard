@@ -18,7 +18,11 @@
                         </router-link>
                     </div>
 
-                    <p class="py-3">{{ dataPost.body }}</p>
+                    <router-link
+                        class="py-3 block"
+                        :to="{ name: 'post.show', params: { username: dataPost.user.username, id: dataPost.id } }">
+                            {{ dataPost.body }}
+                    </router-link>
 
                     <div class="mb-2 text-xs">
                         <span class="text-slate-400">{{ $moment(dataPost.created_at).format('HH:mm') }}</span>
@@ -51,18 +55,20 @@
                 
                     <div
                         v-if="showActionMenu"
-                        class="absolute right-0 bg-white border border-slate-200 rounded-lg">
+                        class="absolute right-0 bg-white border border-slate-200 rounded-lg py-2">
                             <button
                                 id="openEditPostModal"
                                 @click="openEditPostModal()"
-                                class="p-3">
-                                    Modifica
+                                class="p-3 py-1 flex items-center space-x-1 text-xs whitespace-nowrap text-slate-400 hover:text-slate-500 transition">
+                                    <svg class="w-4.5 h-4.5 flex-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5,18H9.24a1,1,0,0,0,.71-.29l6.92-6.93h0L19.71,8a1,1,0,0,0,0-1.42L15.47,2.29a1,1,0,0,0-1.42,0L11.23,5.12h0L4.29,12.05a1,1,0,0,0-.29.71V17A1,1,0,0,0,5,18ZM14.76,4.41l2.83,2.83L16.17,8.66,13.34,5.83ZM6,13.17l5.93-5.93,2.83,2.83L8.83,16H6ZM21,20H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg>
+                                    <span>Modifica post</span>
                             </button>
                             <button
                                 id="deletePost"
                                 @click="deletePost()"
-                                class="border-t border-slate-200 p-3 w-full">
-                                    Elimina
+                                class="p-3 py-1 flex items-center space-x-1 text-xs whitespace-nowrap text-slate-400 hover:text-slate-500 transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash w-4 h-4 flex-none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    <span>Elimina post</span>
                             </button>
                     </div>
                 </div>
@@ -139,7 +145,8 @@ export default {
         deletePost() {
             this.$store.dispatch('users/deletePost', { 
                 username: this.user.username,
-                post: this.dataPost
+                post: this.dataPost,
+                route: this.$route.name
             })
         },
         updatePostValues(post) {

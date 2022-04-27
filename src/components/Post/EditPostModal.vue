@@ -7,10 +7,10 @@
             class="bg-black opacity-30 fixed inset-0"></div>
         
         <!-- Modal -->
-        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
             <form
                 @submit.prevent="updatePost()"
-                class="text-sm bg-white border border-slate-200 rounded-lg z-10 pt-4 p-3 shadow-lg" style="width: 440px">
+                class="text-sm bg-white border border-slate-200 rounded-lg z-20 pt-4 p-3 shadow-lg" style="width: 440px">
                     <textarea
                         v-model="postCopy.body"
                         name="body"

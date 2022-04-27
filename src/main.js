@@ -10,16 +10,16 @@ import VueChatScroll from 'vue-chat-scroll'
 import Echo from 'laravel-echo';
 window.Pusher = require('pusher-js');
 
-Pusher.log = function (message) {
-    window.console.log(message);
-};
-
 Vue.prototype.$moment = moment
 
 Vue.use(VueObserveVisibility)
 Vue.use(VueChatScroll)
 
 Vue.config.productionTip = false
+
+Pusher.log = function (message) {
+    window.console.log(message);
+};
 
 window.Echo = new Echo({
     authEndpoint: 'http://localhost:8000/broadcasting/auth',

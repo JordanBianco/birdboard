@@ -18,3 +18,7 @@ export const ADD_LIKE_TO_POST = (_, post) => {
 export const REMOVE_LIKE_FROM_POST = (_, post) => {
     post.likes_count = post.likes_count - 1
 }
+
+export const DELETE_POST_FROM_FEED = (state, post) => {
+    state.posts.splice(state.posts.indexOf(post), 1)
+}

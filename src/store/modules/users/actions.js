@@ -1,4 +1,5 @@
 import api from '@/apis/api'
+import router from '@/router'
 
 export const getUser = async ({commit}, {username}) => {
     commit('GET_USER', null)
@@ -64,11 +65,21 @@ export const updatePost = async ({commit}, {username, post}) => {
     }
 }
 
-export const deletePost = async ({commit}, {username, post}) => {
+export const deletePost = async ({commit}, {username, post, route}) => {
     try {
         const res = await api.delete('/user/' + username + '/posts/' + post.id);
         if (res.status === 200) {
-            commit('DELETE_POST', post);
+            switch (route) {
+                case 'user.show':
+                    commit('DELETE_POST', post);
+                    break;
+                case 'home':
+                    commit('feed/DELETE_POST_FROM_FEED', post, { root: true});
+                    break;
+                case 'post.show':
+                    router.push({ name: 'user.show', params: { username: username }})
+                    break;  
+            }
         }
     } catch (error) {
         console.log(error)
