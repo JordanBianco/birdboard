@@ -48,7 +48,7 @@ export const signout = async ({commit}) => {
             commit('like/GET_USER_LIKES', [], { root: true})
             commit('follow/GET_LOGGED_IN_USER_FOLLOWING', [], { root: true})
 
-            router.push({ name: 'home' })
+            router.push({ name: 'signin' })
         }        
     } catch (error) {
         console.log(error)

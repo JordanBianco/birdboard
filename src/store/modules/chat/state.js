@@ -1,6 +1,11 @@
 export default {
     suggested: [],
     messages: [],
-    chatStarted: [],
-    success: false
+    
+    page: 1,
+    lastPage: null,
+    
+    conversations: [],
+    
+    success: false,
 }

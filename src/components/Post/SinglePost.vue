@@ -1,39 +1,29 @@
 <template>
     <div
         v-if="dataPost"
-        :class="{ 'border-b rounded-b-lg' : $route.name === 'post.show' }"
-        class="text-sm bg-white border-t border-l border-r last:border-b border-slate-200 first:rounded-t-lg last:rounded-b-lg p-3 flex items-start space-x-3">
-            <div>
-                <div class="bg-slate-200 rounded-full w-9 h-9"></div>
-            </div>
-            <div class="w-full flex items-start justify-between">
+        :class="{ 'rounded-b-lg' : $route.name === 'post.show' }"
+        class="bg-white p-5 first:rounded-t-xl last:rounded-b-xl border-b border-slate-100 shadow-md shadow-slate-100 flex items-start">
+            <UserAvatar
+                :user="dataPost.user"
+                classes="w-12 h-12"
+            />
+
+            <div class="w-full flex items-start justify-between ml-4">
                 <section class="w-full">
                     <div>
-                        <span class="font-semibold text-slate-700 mr-2">{{ dataPost.user.name }}</span>
-                    
-                        <router-link
-                            :to="{ name: 'user.show', params: { username: dataPost.user.username } }"
-                            class="text-slate-400 block -mt-0.5 max-w-max">
-                                @{{ dataPost.user.username }}
-                        </router-link>
+                        <span class="font-semibold text-sm block -mb-1">{{ dataPost.user.name }}</span>
+                        <span class="text-slate-400 text-xs">{{ $moment(dataPost.created_at).fromNow() }}</span>
                     </div>
 
                     <router-link
-                        class="py-3 block"
+                        class="py-4 block text-sm"
                         :to="{ name: 'post.show', params: { username: dataPost.user.username, id: dataPost.id } }">
                             {{ dataPost.body }}
                     </router-link>
-
-                    <div class="mb-2 text-xs">
-                        <span class="text-slate-400">{{ $moment(dataPost.created_at).format('HH:mm') }}</span>
-                        <span class="text-slate-300 mx-1">&bull;</span>
-                        <span class="text-slate-400">{{ $moment(dataPost.created_at).format('DD MMMM YYYY') }}</span>
-                    </div>
                     
-                    <footer class="border-t border-slate-100 pt-2 flex items-center space-x-4 text-slate-400">
+                    <footer class="flex items-center space-x-4 text-slate-400">
                         <TogglePostLike
                             :post="dataPost"
-                            :user="user"
                         />
 
                         <div class="flex space-x-1 items-center">
@@ -46,32 +36,10 @@
                     </footer>
                 </section>
 
-                <div v-if="user && dataPost.user_id === user.id" class="relative">
-                    <svg
-                        id="toggleActionMenu"
-                        @click="toggleActionMenu()"
-                        :class="{ 'text-slate-500' : showActionMenu }"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal w-5 h-5 flex-none cursor-pointer text-slate-400 hover:text-slate-500 transition"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
-                
-                    <div
-                        v-if="showActionMenu"
-                        class="absolute right-0 bg-white border border-slate-200 rounded-lg py-2">
-                            <button
-                                id="openEditPostModal"
-                                @click="openEditPostModal()"
-                                class="p-3 py-1 flex items-center space-x-1 text-xs whitespace-nowrap text-slate-400 hover:text-slate-500 transition">
-                                    <svg class="w-4.5 h-4.5 flex-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M5,18H9.24a1,1,0,0,0,.71-.29l6.92-6.93h0L19.71,8a1,1,0,0,0,0-1.42L15.47,2.29a1,1,0,0,0-1.42,0L11.23,5.12h0L4.29,12.05a1,1,0,0,0-.29.71V17A1,1,0,0,0,5,18ZM14.76,4.41l2.83,2.83L16.17,8.66,13.34,5.83ZM6,13.17l5.93-5.93,2.83,2.83L8.83,16H6ZM21,20H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z"/></svg>
-                                    <span>Modifica post</span>
-                            </button>
-                            <button
-                                id="deletePost"
-                                @click="deletePost()"
-                                class="p-3 py-1 flex items-center space-x-1 text-xs whitespace-nowrap text-slate-400 hover:text-slate-500 transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash w-4 h-4 flex-none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                    <span>Elimina post</span>
-                            </button>
-                    </div>
-                </div>
+                <ActionMenu
+                    :post="dataPost"
+                    @openEditPostModal="openEditPostModal"
+                />
             </div>
 
             <EditPostModal
@@ -84,13 +52,17 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/User/UserAvatar'
 import EditPostModal from '@/components/Post/EditPostModal'
+import ActionMenu from '@/components/Post/ActionMenu'
 import TogglePostLike from '@/components/Like/TogglePostLike'
 
 export default {
     name: 'SinglePost',
     components: {
+        UserAvatar,
         EditPostModal,
+        ActionMenu,
         TogglePostLike
     },
     props: {
@@ -103,51 +75,25 @@ export default {
             required: true
         }
     },
-    created: function() {
-        let self = this;
-
-        window.addEventListener('click', function(e){
-            if (!self.$el.contains(e.target)){
-                self.showActionMenu = false
-            } 
-        })
-    },
     data() {
         return {
-            showActionMenu: false,
             showEditPostModal: false,
             postCopy: {},
             // Aggiunto per risolvere errore di modificare una prop direttamente
             dataPost: this.post
         }
     },
-    computed: {
-        user() {
-            return this.$store.state.auth.user
-        }
-    },
     methods: {
-        toggleActionMenu() {
-            this.showActionMenu = ! this.showActionMenu
-        },
         openEditPostModal() {
             // Copio l'oggetto in caso l'utente annulli la modifica, cosi da riportare l'oggetto allo stato iniziale
             Object.keys(this.dataPost).forEach((key) => {
                 this.$set(this.postCopy, key, this.dataPost[key]);
             })
             
-            this.toggleActionMenu()
             this.showEditPostModal = true
         },
         cancelEdit() {
             this.showEditPostModal = false
-        },
-        deletePost() {
-            this.$store.dispatch('users/deletePost', { 
-                username: this.user.username,
-                post: this.dataPost,
-                route: this.$route.name
-            })
         },
         updatePostValues(post) {
             this.showEditPostModal = false

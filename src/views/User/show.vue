@@ -7,7 +7,7 @@
 
         <div class="space-y-8 py-10">
             <CreatePost
-                v-if="loggedInUser && loggedInUser.id === user.id"
+                v-if="loggedInUser.id === user.id"
             />
 
             <div v-if="posts && posts.length != 0">

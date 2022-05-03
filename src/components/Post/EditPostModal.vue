@@ -4,13 +4,13 @@
         <div
             id="overlay"
             @click="cancelEdit()"
-            class="bg-black opacity-30 fixed inset-0"></div>
+            class="bg-black opacity-30 fixed inset-0 z-20"></div>
         
         <!-- Modal -->
-        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
             <form
                 @submit.prevent="updatePost()"
-                class="text-sm bg-white border border-slate-200 rounded-lg z-20 pt-4 p-3 shadow-lg" style="width: 440px">
+                class="text-sm bg-white border border-slate-200 rounded-xl pt-4 p-3 shadow-lg" style="width: 440px">
                     <textarea
                         v-model="postCopy.body"
                         name="body"
@@ -23,12 +23,12 @@
                         id="cancel"
                         type="button"
                         @click="cancelEdit()"
-                        class="text-sm bg-white hover:text-slate-500 border border-slate-200 text-slate-400 transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
+                        class="text-xs bg-white hover:text-slate-500 border border-slate-200 text-slate-400 transition rounded-full px-4 py-2 focus:outline-sky-200 max-w-max">
                             Annulla
                     </button>
                     <button
                         type="submit"
-                        class="bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200">
+                        class="text-xs bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-2 focus:outline-sky-200">
                             Modifica
                     </button>
                 </footer>

@@ -13,3 +13,7 @@ export const SET_TOKEN = (state, token) => {
 export const SET_ERRORS = (state, errors) => {
     state.errors = errors
 }
+
+export const UPDATE_USER = (state, user) => {
+    state.user = user
+}

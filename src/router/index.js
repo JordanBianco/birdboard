@@ -76,6 +76,13 @@ const routes = [
 				component: () => import(/* webpackChunkName: "settings.account" */ '../views/User/Settings/account.vue'),
 				props: true,
 				meta: { auth: true }
+			},
+			{
+				path: '/:username/settings/delete',
+				name: 'user.settings.delete',
+				component: () => import(/* webpackChunkName: "settings.delete" */ '../views/User/Settings/delete.vue'),
+				props: true,
+				meta: { auth: true }
 			}
 		]
 	}

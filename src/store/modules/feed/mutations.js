@@ -22,3 +22,7 @@ export const REMOVE_LIKE_FROM_POST = (_, post) => {
 export const DELETE_POST_FROM_FEED = (state, post) => {
     state.posts.splice(state.posts.indexOf(post), 1)
 }
+
+export const STORE_POST = (state, post) => {
+    state.posts.unshift(post)
+}

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-between border-t border-slate-200 absolute bottom-0 left-0 right-0">
+    <div class="flex items-center justify-between border-t border-slate-200 absolute bottom-0 left-0 right-0 z-10 bg-white">
         <textarea
             v-model="message.body"
             @keydown.enter.prevent="sendMessage()"
@@ -37,8 +37,8 @@ export default {
         success: {
             handler() {
                 if (this.success) {
-                    this.$store.commit('chat/SET_SUCCESS_STATUS', false)
                     this.clearInput()
+                    this.$store.commit('chat/SET_SUCCESS_STATUS', false)
                 }
             }
         },

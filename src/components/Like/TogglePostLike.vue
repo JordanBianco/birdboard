@@ -16,33 +16,28 @@ export default {
         post: {
             type: Object,
             required: true
-        },
-        user: {
-            type: Object,
-            required: false
         }
     },
     computed: {
+        user() {
+            return this.$store.state.auth.user
+        },
         likes() {
             return this.$store.state.like.likes
         }
     },
     methods: {
         togglePostLike() {
-            if (this.user) {
-                if (! this.hasBeenLiked()) {
-                    this.$store.dispatch('like/addLikeToPost', {
-                        post: this.post,
-                        route_name: this.$route.name
-                    })
-                } else {
-                    this.$store.dispatch('like/removeLikeFromPost', {
-                        post: this.post,
-                        route_name: this.$route.name
-                    })
-                }
+            if (! this.hasBeenLiked()) {
+                this.$store.dispatch('like/addLikeToPost', {
+                    post: this.post,
+                    route_name: this.$route.name
+                })
             } else {
-                this.$router.push({ name: 'signin' })
+                this.$store.dispatch('like/removeLikeFromPost', {
+                    post: this.post,
+                    route_name: this.$route.name
+                })
             }
         },
         hasBeenLiked() {

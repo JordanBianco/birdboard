@@ -14,11 +14,11 @@
             id="overlay"
             @click="closeChatUsers()"
             v-if="showChatUsers"
-            class="bg-black opacity-30 fixed inset-0 z-10"></div>
+            class="bg-black opacity-30 fixed inset-0 z-20"></div>
     
         <div
             v-if="showChatUsers"
-            class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+            class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
                 
                 <div class="text-sm bg-white border border-slate-200 rounded-lg shadow-lg" style="width: 440px">
                     <header class="py-4 border-b border-slate-200">
@@ -105,7 +105,7 @@ export default {
         selectUser(user) {
             this.closeChatUsers()
             // Aggiungo, se non presente, la persona con cui sto chattando alla lista delle chat avviate
-            this.$store.commit('chat/ADD_TO_CHAT_STARTED', {
+            this.$store.commit('chat/ADD_TO_CONVERSATIONS', {
                 to: user,
                 authUser: this.authUser
             })

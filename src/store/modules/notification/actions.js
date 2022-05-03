@@ -13,17 +13,6 @@ export const getNotifications = async ({commit}, {id, page}) => {
     }
 }
 
-export const getlatestNotifications = async ({commit}, {id}) => {
-    try {
-        const res = await api.get('/user/' + id + '/latest-notifications');
-        if (res.status === 200) {
-            commit('GET_LATEST_NOTIFICATIONS', res.data)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 export const markAsRead = async ({commit}, {user, notification_id}) => {
     try {
         const res = await api.post('/user/' + user.id + '/notification', {

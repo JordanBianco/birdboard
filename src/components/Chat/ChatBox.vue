@@ -3,7 +3,11 @@
 
         <ChatBoxHeader
             :selectedUser="selectedUser"
-        />        
+        />
+
+        <div v-if="notInFollowingList" class="bg-sky-400 p-2 text-white text-xs">
+            {{ notInFollowingList }}
+        </div>
 
         <MessagesFeed
             :messages="messages"
@@ -34,15 +38,23 @@ export default {
             required: true
         }
     },
+    data() {
+        return {
+            notInFollowingList: ''
+        }
+    },
     watch: {
         selectedUser: {
             handler() {
-                window.Echo.private('messages.' + this.user.id)
-                    .listen('MessageSent', e => {
-                        this.$store.commit('chat/PUSH_MESSAGE', e.message)
-                    })
+                this.isInFollowingList()
+                this.getChatHistory()
             },
             immediate: true
+        },
+        page() {
+            if (this.page !== 1) {
+                this.getChatHistory()
+            }
         }
     },
     computed: {
@@ -52,6 +64,30 @@ export default {
         },
         messages() {
             return this.$store.state.chat.messages
+        },
+        page() {
+            return this.$store.state.chat.page
+        }
+    },
+    methods: {
+        getChatHistory() {
+            this.$store.dispatch('chat/getChatHistory', {
+                id: this.selectedUser.id,
+                page: this.page
+            })
+        },
+        isInFollowingList() {
+            this.notInFollowingList = ''
+
+            let exists
+
+            exists = this.$store.state.follow.loggedInUserFollowing.find(user => {
+                return user.id === this.selectedUser.id
+            })
+
+            if (!exists) {
+                this.notInFollowingList = this.selectedUser.name + ' non è nella tua lista dei seguiti.'
+            }
         }
     }
 }

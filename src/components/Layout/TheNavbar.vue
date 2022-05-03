@@ -1,9 +1,9 @@
 <template>
-    <nav class="p-6 bg-white">
+    <nav class="px-6 py-4 bg-white border-b border-slate-200">
         <div class="flex justify-between items-center xl:max-w-5xl mx-auto">
             <router-link
                 :to="{ name: 'home' }"
-                class="text-xl font-semibold flex items-center space-x-2">
+                class="text-lg font-semibold flex items-center space-x-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 flex-none feather feather-feather text-sky-400"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path><line x1="16" y1="8" x2="2" y2="22"></line><line x1="17.5" y1="15" x2="9" y2="15"></line></svg>
                     <h1>Birdboard</h1>
             </router-link>
@@ -25,16 +25,14 @@
             <div
                 v-else
                 class="flex items-center space-x-3">
-                    <router-link
-                        :to="{ 
-                                name: 'chat.index',
-                                params: {
-                                    username: $store.state.auth.user.username
-                                }
-                            }">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send w-6 h-6 flex-none text-slate-400 cursor-pointer"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    </router-link>
-                    <NotificationComponent />
+                    <div class="relative w-64">
+                        <input
+                            type="text"
+                            placeholder="Cerca"
+                            class="bg-slate-100 placeholder-slate-400 rounded-lg pl-10 p-2 text-sm focus:outline-none w-full">
+
+                        <svg class="w-4 h-4 text-slate-400 flex-none absolute left-2 top-2.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z"/></svg>
+                    </div>
                     <DropdownMenu />
             </div>
         </div>
@@ -42,13 +40,11 @@
 </template>
 
 <script>
-import NotificationComponent from '@/components/Dashboard/NotificationComponent'
 import DropdownMenu from '@/components/Dashboard/DropdownMenu'
 
 export default {
     name: 'TheNavbar',
     components: {
-        NotificationComponent,
         DropdownMenu
     },
     computed: {

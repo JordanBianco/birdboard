@@ -2,10 +2,10 @@
     <header class="py-3 px-6 border-b border-slate-200 flex justify-between items-center">
         <div class="w-full flex items-center space-x-3">
             <div class="w-8 h-8 rounded-full bg-slate-300"></div>
-            <div>
+            <router-link :to="{ name: 'user.show', params: { username: selectedUser.username }}">
                 <span class="font-semibold text-sm text-slate-600">{{ selectedUser.name }}</span>
                 <span class="text-slate-400 text-xs block -mt-1 max-w-max">@{{ selectedUser.username }}</span>
-            </div>
+            </router-link>
         </div>
 
         <div class="relative">

@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils'
-import SidebarLinks from '@/components/Layout/SidebarLinks'
+import TheSidebar from '@/components/Layout/TheSidebar'
 
-describe('SidebarLinks', () => {
+describe('TheSidebar', () => {
 
     test('Home link is visible', () => {
-        const wrapper = mount(SidebarLinks, {
+        const wrapper = mount(TheSidebar, {
             stubs: ['router-link']
         })
 

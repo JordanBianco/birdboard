@@ -2,7 +2,7 @@
     <div>
         <section class="max-w-md mx-auto space-y-8 py-10">
             <header class="flex items-center justify-between">
-                <h3 class="text-lg text-slate-600">Notifiche <small>({{ total }})</small></h3>
+                <h3 class="font-semibold text-sm uppercase text-slate-400">Notifiche</h3>
                 <NotificationsActionMenu
                     v-if="notifications && notifications.length != 0"
                     :unreadNotifications="unreadNotifications"
@@ -11,17 +11,18 @@
             </header>
             
             <div v-if="notifications && notifications.length != 0">
+                <!-- border border-t-0 first:border-t  -->
                 <div
                     v-for="notification in notifications"
                     :key="notification.id"
-                    class="border border-t-0 first:border-t first:rounded-t-lg"
-                    :class="[ notification.read_at === null ? 'bg-slate-100' : '' ]">
+                    class="first:rounded-t-xl last:rounded-b-xl border-b border-slate-200 last:border-0 shadow-md shadow-slate-200 drop-shadow-xs"
+                    :class="[ notification.read_at === null ? 'bg-slate-100' : 'bg-white' ]">
                         <component
                             :is="notificationType(notification)"
                             :notification="notification"
                             :user="user"
-                            :dropdown="false"
-                            class="p-4 text-sm"
+                            :feed="false"
+                            class="p-5 text-sm"
                         ></component>
                 </div>
 
@@ -50,13 +51,6 @@ export default {
         NewLikeToReply: () => import ('@/components/Notification/NewLikeToReply'),
         NewFollower: () => import ('@/components/Notification/NewFollower')
     },
-    mounted() {
-        this.getNotifications()
-    },
-    beforeRouteLeave(to, from, next) {
-        this.emptyNotifications()
-        next()
-    },
     data() {
         return {
             page: 1,
@@ -79,16 +73,11 @@ export default {
             return this.$store.state.notification.lastPage
         },
         total() {
+            // X ora lo lascio fuori, va aggiornato il count quando ricevo una notifica, senza refresh della pagina
             return this.$store.state.notification.total
         }
     },
     methods: {
-        getNotifications() {
-            this.$store.dispatch('notification/getNotifications', {
-                id: this.user.id,
-                page: this.page
-            })
-        },
         notificationType(n) {
             return n.type.replace("App\\Notifications\\", '')
         },
@@ -102,9 +91,6 @@ export default {
             }
             this.page = this.page + 1
             this.getNotifications()
-        },
-        emptyNotifications() {
-            this.$store.commit('notification/EMPTY_NOTIFICATIONS')
         }
     }
 }

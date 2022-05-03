@@ -1,58 +1,65 @@
 <template>
     <div class="flex items-start space-x-4">
-        <div class="flex items-center space-x-3 w-full">
-
-            <svg
-                :class="[ notification.read_at === null ? 'text-sky-400' : 'text-slate-400' ]"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle w-4.5 h-4.5 flex-none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-
-            <div>
-                <span style="font-size: 11px" class="block text-slate-400 mt-0.5">{{ $moment(notification.created_at).format('HH:mm ' + '&bull;' + ' DD MMMM YYYY') }}</span>
-                <span class="block text-sm text-slate-600">Nuovo commento</span>
-                <router-link
-                    class="block text-slate-400"
-                    @click.native="markAsRead()"
-                    :to="{
-                        name: 'post.show',
-                        params: {
-                            username: notification.data.post.user.username,
-                            id: notification.data.post.id
-                        },
-                        hash: '#' + notification.data.reply.id
-                    }"
-                >
-                    {{ notification.data.reply.user.name }} ha commentato il tuo post
-                </router-link>
-            </div>
-        </div>
-
-        <!-- Non mostro azioni se mi trovo nel mini dropdown -->
-        <NotificationActionMenu
-            v-if="!dropdown"
+        <UserAvatar
             :user="user"
-            :notification="notification"
+            :classes="[ feed ? 'w-9 h-9' : 'w-12 h-12' ]"
         />
+
+        <div class="flex items-start justify-between space-x-6 w-full">
+            <div>
+                <span class="font-semibold block">Nuovo commento</span>
+                
+                <span class="text-slate-400 block my-1">{{ notification.data.reply.user.name }} ha commentato il tuo
+                    <router-link
+                        class="text-sky-400"
+                        @click.native="markAsRead()"
+                        :to="{
+                            name: 'post.show',
+                            params: {
+                                username: notification.data.post.user.username,
+                                id: notification.data.post.id
+                            },
+                            hash: '#' + notification.data.reply.id
+                        }"
+                    >
+                        post
+                    </router-link>
+                </span>
+
+                <div class="text-xxs text-slate-400">
+                    {{ $moment(notification.created_at).fromNow() }}
+                </div>
+            </div>
+
+            <NotificationActionMenu
+                v-if="!feed"
+                :user="user"
+                :notification="notification"
+            />
+        </div>
     </div>
 </template>
 
 <script>
+import UserAvatar from '@/components/User/UserAvatar'
 import NotificationActionMenu from '@/components/Notification/NotificationActionMenu'
 
 export default {
     name: 'NewReply',
     components: {
+        UserAvatar,
         NotificationActionMenu
     },
     props: {
         notification: {
-            type: [Object, Array],
+            type: Object,
             required: true
         },
         user: {
-            type: [Object, Array],
+            type: Object,
             required: true
         },
-        dropdown: {
+        feed: {
             type: Boolean,
             required: true
         }

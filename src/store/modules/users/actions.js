@@ -37,11 +37,18 @@ export const getPost = async ({commit}, {username, id}) => {
     }
 }
 
-export const storePost = async ({commit}, {username, post}) => {
+export const storePost = async ({commit}, {username, post, route}) => {
     try {
         const res = await api.post('/user/' + username + '/posts', post);
         if (res.status === 201) {
-            commit('STORE_POST', res.data.data);
+            switch (route) {
+                case 'home':
+                    commit('feed/STORE_POST', res.data.data, { root: true })
+                    break;
+                case 'user.show':    
+                    commit('STORE_POST', res.data.data);
+                    break;
+            }
             commit('SET_SUCCESS_STATUS', true);
             commit('SET_ERRORS', [])
         }
