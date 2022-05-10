@@ -5,7 +5,7 @@
             <div
                 v-for="notification in popupNotifications"
                 :key="notification.id"
-                class="bg-white shadow-md shadow-slate-200 drop-shadow-xs rounded-xl p-3">
+                class="bg-white dark:bg-zinc-700 shadow-md shadow-slate-200 dark:shadow-zinc-800 drop-shadow-xs rounded-xl p-4">
                     <component
                         :is="notificationType(notification)"
                         :notification="notification"

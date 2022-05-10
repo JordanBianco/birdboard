@@ -1,16 +1,19 @@
 <template>
     <div class="relative">
 
-        <div class="px-1 border border-slate-200 rounded-lg">
-            <svg
-                @click="toggleNotificationActionMenu()"
-                :class="{ 'text-slate-500' : showNotificationActionMenu }"
-                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal w-4.5 h-4.5 flex-none cursor-pointer text-slate-400 hover:text-slate-500 transition"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+        <div class="flex items-center space-x-2">
+            <div v-if="notification.read_at === null" class="w-2 h-2 rounded-full bg-sky-400"></div>
+            <div class="px-1 border border-slate-200 dark:border-zinc-600 rounded-lg">
+                <svg
+                    @click="toggleNotificationActionMenu()"
+                    :class="{ 'text-slate-500' : showNotificationActionMenu }"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal w-4.5 h-4.5 flex-none cursor-pointer text-slate-400 hover:text-slate-500 transition"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+            </div>
         </div>
 
         <div
             v-if="showNotificationActionMenu"
-            class="absolute top-7 right-0 bg-white rounded-xl shadow-md shadow-slate-200 drop-shadow-xs p-3 space-y-3">
+            class="absolute top-7 right-0 rounded-xl shadow-md drop-shadow-xs p-3 space-y-3 bg-white shadow-slate-200 dark:bg-zinc-700 dark:shadow-zinc-800">
                 <button
                     v-if="notification.read_at === null"
                     @click="markAsRead()"

@@ -1,20 +1,22 @@
 <template>
     <div v-if="user" class="relative">
-        <img
-            v-if="user.image"
-            src=""
-            :alt="user.name + ' avatar'"
-            class="rounded-lg">
+        <div class="flex-none w-9 h-9" @click="toggleMenu()">
+            <img
+                v-if="user.image"
+                :src="userImage"
+                :alt="user.name + ' avatar'"
+                class="rounded-full w-full h-full object-cover">
 
-        <div
-            id="avatar"
-            @click="toggleMenu()"
-            v-else
-            class="bg-slate-200 rounded-lg w-10 h-10 cursor-pointer"></div>
+            <img
+                v-else
+                :src="'https://eu.ui-avatars.com/api/?background=eeeeee&color=3f3f46&name=' + user.name"
+                alt=""
+                class="rounded-full flex-none">
+        </div>
 
         <div
             v-if="showMenu"
-            class="absolute top-12 right-0 w-48 bg-white shadow-md shadow-slate-200 rounded-xl z-20 p-5">
+            class="absolute top-12 right-0 w-48 bg-white dark:bg-zinc-700 shadow-md shadow-slate-200 dark:shadow-zinc-900 rounded-xl z-20 p-5">
                 <div>
                     <span class="block font-semibold text-sm mb-0.5">{{ user.name }}</span>
                     <span class="block text-slate-400 text-sm">@{{ user.username }}</span>
@@ -53,7 +55,7 @@
 export default {
     name: 'DropdownMenu',
     mounted() {
-        /** Una volta loggato carico tutte le notifiche recenti (10 per pagina ritornate dall API) */
+        /** Una volta loggato carico tutte le notifiche (10 per pagina ritornate dall API) */
         this.$store.dispatch('notification/getNotifications', {
             id: this.user.id,
             page: 1
@@ -67,6 +69,9 @@ export default {
     computed: {
         user() {
             return this.$store.state.auth.user
+        },
+        userImage() {
+            return 'http://localhost:8000/storage/' + this.user.image.url
         }
     },
     methods: {

@@ -92,3 +92,15 @@ export const deletePost = async ({commit}, {username, post, route}) => {
         console.log(error)
     }
 }
+
+export const searchUser = async ({commit}, {search}) => {
+    try {
+        const res = await api.get('/users?search=' + search);
+        if (res.status === 200) {
+            commit('SEARCH_RESULTS', res.data.data);
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+

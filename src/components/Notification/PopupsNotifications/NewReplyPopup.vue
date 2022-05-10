@@ -5,7 +5,7 @@
 
         <div>
             <span class="block text-slate-400 text-xxs mt-0.5">adesso</span>
-            <span class="block text-sm text-slate-600 font-semibold">Nuovo commento</span>
+            <span class="block text-sm font-semibold">Nuovo commento</span>
             <router-link
                 class="block text-slate-400 text-xs"
                 :to="{

@@ -1,29 +1,26 @@
 <template>
     <div class="h-full relative">
-
         <ChatBoxHeader
             :selectedUser="selectedUser"
+            :notInFollowingList="notInFollowingList"
         />
-
-        <div v-if="notInFollowingList" class="bg-sky-400 p-2 text-white text-xs">
-            {{ notInFollowingList }}
-        </div>
 
         <MessagesFeed
             :messages="messages"
             :user="user"
         />
-        
+
         <SendMessageTextarea
             :selectedUser="selectedUser"
+            :user="user"
         />
     </div>
 </template>
 
 <script>
-import ChatBoxHeader from '@/components/Chat/ChatBoxHeader'
-import MessagesFeed from '@/components/Chat/MessagesFeed'
-import SendMessageTextarea from '@/components/Chat/SendMessageTextarea'
+import ChatBoxHeader from '@/components/Chat/Box/ChatBoxHeader'
+import MessagesFeed from '@/components/Chat/Box/MessagesFeed'
+import SendMessageTextarea from '@/components/Chat/Box/SendMessageTextarea'
 
 export default {
     name: 'ChatBox',
@@ -47,6 +44,7 @@ export default {
         selectedUser: {
             handler() {
                 this.isInFollowingList()
+                this.$store.commit('chat/EMPTY_CHAT_HISTORY')
                 this.getChatHistory()
             },
             immediate: true

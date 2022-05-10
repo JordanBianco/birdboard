@@ -2,26 +2,25 @@
     <div>
         <form
             @submit.prevent="storeReply()"
-            class="text-sm bg-white border border-slate-200 rounded-lg pt-4 p-3">
+            class="text-sm bg-white dark:bg-zinc-700 shadow-md shadow-slate-200 dark:shadow-slate-900 drop-shadow-xs rounded-xl p-5">
                 <textarea
                     v-model="reply.body"
                     name="body"
                     id="body"
-                    placeholder="Write a comment"
-                    class="w-full resize-none placeholder-slate-400 focus:outline-none"
+                    placeholder="Rispondi a questo post"
+                    class="w-full resize-none placeholder-slate-400 focus:outline-none bg-transparent"
                     rows="4"></textarea>
-
-                    <!-- Validation provider per lunghezza caratteri -->
                 
-                <footer class="flex items-center justify-between border-t border-slate-100 pt-2">
-                    <div class="flex items-center space-x-2">
-                        <div class="bg-slate-200 rounded-full w-9 h-9"></div>
-                        <span class="text-slate-400">@{{ user.username }}</span>
-                    </div>
+                <footer class="flex items-center justify-between border-t border-slate-100 dark:border-zinc-600 pt-4">
+
+                    <UserAvatar
+                        :user="user"
+                        :classes="'w-9 h-9'"
+                    />
                     <button
                         type="submit"
-                        class="bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200">
-                            Reply
+                        class="bg-sky-400 hover:bg-sky-500 transition text-xs text-white rounded-full px-4 py-2 focus:outline-sky-200">
+                            Commenta
                     </button>
                 </footer>
         </form>
@@ -30,11 +29,13 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/User/UserAvatar'
 import ErrorMessages from '@/components/Layout/ErrorMessages'
 
 export default {
     name: 'CreateReply',
     components: {
+        UserAvatar,
        ErrorMessages 
     },
     props: {

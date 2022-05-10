@@ -110,3 +110,7 @@ export const NEW_POPUP_NOTIFICATION = (state, notification) => {
 export const REMOVE_POPUP_NOTIFICATION = (state, notification) => {
     state.popupNotifications.splice(state.popupNotifications.indexOf(notification, 1))
 }
+
+export const NEXT_PAGE = (state) => {
+    state.page = state.page + 1
+}

@@ -3,7 +3,7 @@
         v-if="post.user_id === user.id"
         class="relative">
 
-            <div class="px-1 border border-slate-200 rounded-lg">
+            <div class="px-1 border border-slate-200 dark:border-zinc-600 rounded-lg">
                 <svg
                     id="toggleActionMenu"
                     @click="toggleActionMenu()"
@@ -13,7 +13,7 @@
 
             <div
                 v-if="showActionMenu"
-                class="absolute top-7 right-0 bg-white rounded-xl shadow-md shadow-slate-200 drop-shadow-xs p-3 space-y-3">
+                class="absolute top-7 right-0 bg-white dark:bg-zinc-700 rounded-xl shadow-md shadow-slate-200 dark:shadow-zinc-800 drop-shadow-xs p-3 space-y-3">
                     <button
                         id="openEditPostModal"
                         @click="openEditPostModal()"
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    name: 'ActionMenu',
+    name: 'PostActionMenu',
     props: {
         post: {
             type: Object,

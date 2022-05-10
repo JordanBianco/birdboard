@@ -1,4 +1,5 @@
 module.exports = {
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{vue,js}'],
   theme: {
     extend: {
@@ -15,3 +16,11 @@ module.exports = {
   },
   plugins: [],
 }
+
+/**
+ * Sfondo app: bg-zinc-800
+ * Sfondo card: bg-zinc-700
+ * Ombra card: shadow-zinc-900
+ * Bordo card elementi: border-zinc-600
+ * 
+ */

@@ -1,10 +1,10 @@
 <template>
     <div class="space-y-6">
-        <div class="bg-white p-5 rounded-xl shadow-md shadow-slate-100 drop-shadow-xs">
+        <div class="bg-white dark:bg-zinc-700 p-5 rounded-xl shadow-md shadow-slate-200 dark:shadow-zinc-900 drop-shadow-xs">
             <div class="flex items-center space-x-4">
                 <UserAvatar
                     :user="user"
-                    classes="w-10 h-10"
+                    :classes="'w-10 h-10'"
                 />
                 <div>
                     <span class="block font-semibold text-sm mb-0.5">{{ user.name }}</span>
@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="bg-white p-5 rounded-xl shadow-md shadow-slate-100 drop-shadow-xs">
+        <div class="bg-white dark:bg-zinc-700 p-5 rounded-xl shadow-md shadow-slate-200 dark:shadow-zinc-900 drop-shadow-xs">
             <ul class="space-y-5">
                 <router-link
                     :to="{ name: 'home' }"
@@ -56,6 +56,20 @@
 
                     <div v-if="unreadNotifications > 0" class="rounded-full w-4.5 h-4.5 bg-red-500 text-white text-xxs flex justify-center items-center">
                         {{ unreadNotifications > 9 ? '9+' : unreadNotifications }}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <router-link
+                        :to="{ name: 'notification.index', params: { username: user.username }}"
+                        exact-active-class="text-sky-400"
+                        class="flex items-center space-x-3 hover:text-sky-400 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus w-5 h-5 flex-none text-slate-400"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                            <span class="font-semibold text-sm">Richieste</span>
+                    </router-link>
+
+                    <div class="rounded-full w-4.5 h-4.5 bg-sky-400 text-white text-xxs flex justify-center items-center">
+                        8
                     </div>
                 </div>
 

@@ -4,7 +4,7 @@
             <div
                 v-for="i in 5"
                 :key="i"
-                class="bg-slate-300 w-24 h-36 rounded-xl flex-none"></div>
+                class="bg-slate-400 w-24 h-32 rounded-xl flex-none"></div>
         </header>
 
         <CreatePost />

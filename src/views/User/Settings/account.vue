@@ -12,12 +12,12 @@
                     id="username"
                     v-model="userCopy.username"
                     type="text"
-                    class="w-full border border-slate-200 rounded-lg px-4 py-2 focus:outline-sky-200 text-sm">
+                    class="w-full bg-transparent border border-slate-200 dark:border-zinc-600 rounded-lg px-4 py-2 focus:outline-sky-200 text-sm">
             </div>
 
             <button
                 type="submit"
-                class="bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200 text-sm">
+                class="bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-2 focus:outline-sky-200 text-xs">
                     Aggiorna Informazioni
             </button>
         </form>

@@ -3,8 +3,8 @@
         <button
             v-if="loggedInUser && loggedInUser.id !== user.id"
             @click="toggleFollow()"
-            :class="[ alreadyFollowing() ? 'bg-white hover:text-slate-500 border border-slate-300 text-slate-400 focus:outline-sky-200' : 'bg-sky-400 hover:bg-sky-500 text-white focus:outline-sky-200' ]"
-            class="text-sm  transition rounded-full px-4 py-1.5  max-w-max">
+            :class="[ alreadyFollowing() ? 'bg-white hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-600 text-slate-400' : 'bg-sky-400 hover:bg-sky-500 text-white focus:outline-sky-200' ]"
+            class="text-sm transition rounded-full px-4 py-2 max-w-max">
                 {{ alreadyFollowing() ? 'Non seguire più' : 'Segui' }}
         </button>
     </div>

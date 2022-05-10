@@ -1,12 +1,10 @@
 <template>
     <div>
-        <header class="py-5 px-6 border-b border-slate-200">
-            <div
+        <header class="flex items-center justify-between">
+            <span class="uppercase font-semibold text-xs text-slate-400 block">Messaggi diretti</span>
+            <svg
                 @click="openChatUsers()"
-                class="flex items-center space-x-2 text-slate-400 hover:text-slate-500 transition cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send w-5 h-5 flex-none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    <span class="text-xs ">Nuovo messaggio</span>
-            </div>
+                class="w-5 h-5 flex-none text-slate-400 hover:text-sky-400 transition cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19,11H13V5a1,1,0,0,0-2,0v6H5a1,1,0,0,0,0,2h6v6a1,1,0,0,0,2,0V13h6a1,1,0,0,0,0-2Z"/></svg>
         </header>
 
         <!-- Overlay -->
@@ -20,31 +18,34 @@
             v-if="showChatUsers"
             class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
                 
-                <div class="text-sm bg-white border border-slate-200 rounded-lg shadow-lg" style="width: 440px">
-                    <header class="py-4 border-b border-slate-200">
-                        <h3 class="text-slate-500 text-base text-center">Nuovo messaggio</h3>
+                <div class="text-sm bg-white dark:bg-zinc-700 rounded-xl shadow-lg w-[400px]">
+                    <header class="py-4 border-b border-slate-200 dark:border-zinc-600">
+                        <h3 class="text-center">Nuovo messaggio</h3>
                     </header>
 
                     <SearchUserToChatWith
                         @searchUser="searchUser"
                     />
                     
-                    <section style="height:400px" class="overflow-y-auto p-1">
+                    <section class="overflow-y-auto h-[400px]">
                         <p
                             v-if="suggested.length != 0"
-                            class="text-sm font-semibold text-slate-600 p-4">
+                            class="text-xs uppercase p-4">
                                 Suggeriti
                         </p>
                         <div
                             v-for="user in suggested"
                             :key="user.id"
                             @click="selectUser(user)"
-                            class="flex items-center justify-between px-4 py-3 odd:bg-slate-50 cursor-pointer transition hover:bg-slate-100">
+                            class="flex items-center justify-between px-4 py-3 cursor-pointer transition hover:bg-slate-100 dark:hover:bg-zinc-800">
                                 <div class="w-full flex items-center space-x-3">
-                                    <div class="w-8 h-8 rounded-full bg-slate-300"></div>
+                                    <UserAvatar
+                                        :user="user"
+                                        :classes="'w-8 h-8'"
+                                    />
                                     <div>
-                                        <span class="font-semibold text-slate-600">{{ user.name }}</span>
-                                        <span class="text-slate-400 block -mt-0.5 max-w-max">@{{ user.username }}</span>
+                                        <span class="block">{{ user.name }}</span>
+                                        <span class="text-slate-400 block -mt-0.5">@{{ user.username }}</span>
                                     </div>
                                 </div>
                         </div>
@@ -55,11 +56,13 @@
 </template>
 
 <script>
-import SearchUserToChatWith from '@/components/Chat/SearchUserToChatWith'
+import SearchUserToChatWith from '@/components/Chat/Sidebar/SearchUserToChatWith'
+import UserAvatar from '@/components/User/UserAvatar'
 
 export default {
-    name: 'NewChatMessage',
+    name: 'NewConversation',
     components: {
+        UserAvatar,
         SearchUserToChatWith
     },
     props: {
@@ -109,7 +112,8 @@ export default {
                 to: user,
                 authUser: this.authUser
             })
-            this.$emit('selectUser', user)
+
+            this.$store.commit('chat/SELECT_USER', user)
         },
         searchUser(search) {
             this.search = search

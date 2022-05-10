@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="post"
-        class="max-w-lg mx-auto space-y-8 py-10">
+        class="w-[512px] mx-auto space-y-8 py-10">
 
         <SinglePost
             :post="post"
@@ -10,18 +10,9 @@
 
         <!-- Commenti caricati a parte non eagerloaded -->
         <CreateReply
-            v-if="user"
             :post="post"
             :user="user"    
         />
-        <div v-else class="text-slate-500">
-            <router-link
-                class="text-sky-400 hover:underline"
-                :to="{ name: 'signin' }">
-                    Accedi
-            </router-link>
-            per partecipare alla conversazione
-        </div>
 
         <div v-if="replies && replies.length != 0">
             <SingleReply
@@ -68,9 +59,10 @@ export default {
         this.getPost()
         this.getReplies()
     },
-    beforeRouteLeave(to, from, next) {
-        this.emptyReplies()
-        next()
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.emptyReplies()
+        })
     },
     watch: {
         id: {

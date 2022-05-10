@@ -9,14 +9,12 @@
                     :user="user"
                 />
             </header>
-            
+
             <div v-if="notifications && notifications.length != 0">
-                <!-- border border-t-0 first:border-t  -->
                 <div
                     v-for="notification in notifications"
                     :key="notification.id"
-                    class="first:rounded-t-xl last:rounded-b-xl border-b border-slate-200 last:border-0 shadow-md shadow-slate-200 drop-shadow-xs"
-                    :class="[ notification.read_at === null ? 'bg-slate-100' : 'bg-white' ]">
+                    class="rounded-xl shadow-md drop-shadow-xs bg-white dark:bg-zinc-700 shadow-slate-200 dark:shadow-zinc-900 mb-5">
                         <component
                             :is="notificationType(notification)"
                             :notification="notification"
@@ -33,7 +31,7 @@
                 </div>
             </div>
             <div v-else>
-                <p class="text-sm text-slate-500">Non hai nuove notifiche</p>
+                <p class="text-sm">Non hai nuove notifiche</p>
             </div>
         </section>
     </div>
@@ -49,11 +47,10 @@ export default {
         NewReply: () => import ('@/components/Notification/NewReply'),
         NewLikeToPost: () => import ('@/components/Notification/NewLikeToPost'),
         NewLikeToReply: () => import ('@/components/Notification/NewLikeToReply'),
-        NewFollower: () => import ('@/components/Notification/NewFollower')
+        // NewFollower: () => import ('@/components/Notification/NewFollower')
     },
     data() {
         return {
-            page: 1,
             loading: false
         }
     },
@@ -69,6 +66,9 @@ export default {
                 return n.read_at === null
             }).length
         },
+        page() {
+            return this.$store.state.notification.page
+        },
         lastPage() {
             return this.$store.state.notification.lastPage
         },
@@ -82,15 +82,20 @@ export default {
             return n.type.replace("App\\Notifications\\", '')
         },
         visibilityChanged(isVisible) {
-            if (! isVisible) { return }
+            if (! isVisible) return
             if (this.page >= this.lastPage) { 
                 this.loading = false
                 return
             } else {
                 this.loading = true
             }
-            this.page = this.page + 1
-            this.getNotifications()
+
+            this.$store.commit('notification/NEXT_PAGE')
+
+            this.$store.dispatch('notification/getNotifications', {
+                id: this.user.id,
+                page: this.page
+            })
         }
     }
 }

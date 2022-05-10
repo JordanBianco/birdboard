@@ -33,6 +33,21 @@ export const updateAccountInfo = async ({commit}, {id, username}) => {
     }
 }
 
+export const updateImage = async ({commit}, formData) => {
+    try {
+        const res = await api.post('/user/' + formData.get('id') + '/image', formData);
+        if (res.status === 200) {
+            router.push({ name: 'user.settings.image', params: { username: res.data.username }}).catch(()=>{})
+            commit('auth/UPDATE_USER', res.data, { root: true })
+            commit('SET_ERRORS', [])
+        }
+    } catch (error) {
+        if (error.response.status === 422) {
+            commit('SET_ERRORS', error.response.data.errors)
+        }
+    }
+}
+
 export const deleteAccount = async ({commit}, {id}) => {
     try {
         const res = await api.delete('/user/' + id + '/account');

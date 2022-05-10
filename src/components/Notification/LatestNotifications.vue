@@ -1,7 +1,7 @@
 <template>
     <div>
         <span class="block text-slate-400 font-semibold text-xs uppercase mb-3">Notifiche recenti</span>
-        <div class="bg-white p-5 rounded-xl shadow-md shadow-slate-100 drop-shadow-xs">
+        <div class="bg-white dark:bg-zinc-700 p-5 rounded-xl shadow-md shadow-slate-200 dark:shadow-zinc-900 drop-shadow-xs">
             <div
                 v-for="notification in notifications.slice(0, 3)"
                 :key="notification.id"
@@ -42,7 +42,7 @@ export default {
     methods: {
         notificationType(notification) {
             return notification.type.replace("App\\Notifications\\", '')
-        },
+        }
     }
 }
 </script>

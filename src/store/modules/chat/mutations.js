@@ -67,7 +67,7 @@ export const NEW_MESSAGE_RECEIVED = (state, {from, to}) => {
         exists.my_unread_messages.push({})
     } else {
         // Altrimenti creo una nuova conversazione
-        state.conversations.push({
+        state.conversations.unshift({
             from: from,
             to: to,
             my_unread_messages: [{}]
@@ -92,4 +92,29 @@ export const READ_MESSAGE = (state, message) => {
     })
 
     mess.read = true
+}
+
+// Seleziona l'utente con cui chattare
+export const SELECT_USER = (state, user) => {
+    state.selectedUser = user
+}
+
+export const SET_TYPING_USER = (state, value) => {
+    state.typingUser = value
+}
+
+export const IS_TYPING = (state, value) => {
+    state.isTyping = value
+}
+
+export const SET_ONLINE_USERS = (state, users) => {
+    state.onlineUsers = users
+}
+
+export const PUSH_ONLINE_USER = (state, user) => {
+    state.onlineUsers.push(user)
+}
+
+export const REMOVE_ONLINE_USER = (state, user) => {
+    state.onlineUsers.splice(state.onlineUsers.indexOf(user), 1)
 }

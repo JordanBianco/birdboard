@@ -7,7 +7,7 @@
 
         <div
             v-if="showNotificationsActionMenu"
-            class="absolute top-5 right-0 bg-white shadow-md shadow-slate-200 drop-shadow-xs rounded-xl z-10 p-3 space-y-3">
+            class="absolute top-5 right-0 bg-white dark:bg-zinc-700 shadow-md shadow-slate-200 dark:shadow-zinc-800 drop-shadow-xs rounded-xl z-10 p-3 space-y-3">
                 <button
                     v-if="unreadNotifications != 0"
                     @click="markAllAsRead()"

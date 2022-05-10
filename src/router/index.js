@@ -71,9 +71,23 @@ const routes = [
 				meta: { auth: true }
 			},
 			{
+				path: '/:username/settings/image',
+				name: 'user.settings.image',
+				component: () => import(/* webpackChunkName: "settings.image" */ '../views/User/Settings/image.vue'),
+				props: true,
+				meta: { auth: true }
+			},			
+			{
 				path: '/:username/settings/account',
 				name: 'user.settings.account',
 				component: () => import(/* webpackChunkName: "settings.account" */ '../views/User/Settings/account.vue'),
+				props: true,
+				meta: { auth: true }
+			},
+			{
+				path: '/:username/settings/password',
+				name: 'user.settings.password',
+				component: () => import(/* webpackChunkName: "settings.password" */ '../views/User/Settings/password.vue'),
 				props: true,
 				meta: { auth: true }
 			},

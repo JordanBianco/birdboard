@@ -1,8 +1,8 @@
 <template>
     <div class="flex items-start space-x-4">
         <UserAvatar
-            :user="user"
-            :classes="[ feed ? 'w-9 h-9' : 'w-12 h-12' ]"
+            :user="notification.data.reply.user"
+            :classes="'w-9 h-9'"
         />
 
         <div class="flex items-start justify-between space-x-6 w-full">

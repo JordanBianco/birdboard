@@ -4,21 +4,21 @@
         <div
             id="overlay"
             @click="cancelEdit()"
-            class="bg-black opacity-30 fixed inset-0 z-20"></div>
+            class="bg-black opacity-30 dark:opacity-40 fixed inset-0 z-20"></div>
         
         <!-- Modal -->
         <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
             <form
                 @submit.prevent="updatePost()"
-                class="text-sm bg-white border border-slate-200 rounded-xl pt-4 p-3 shadow-lg" style="width: 440px">
+                class="text-sm bg-white dark:bg-zinc-700 rounded-xl p-5 shadow-lg w-[440px]">
                     <textarea
                         v-model="postCopy.body"
                         name="body"
                         id="body"
-                        class="w-full resize-none placeholder-slate-400 focus:outline-none"
+                        class="w-full bg-transparent resize-none placeholder-slate-400 focus:outline-none"
                         rows="4"></textarea>
 
-                <footer class="flex justify-between border-t border-slate-100 pt-2">
+                <footer class="flex justify-between border-t border-slate-100 dark:border-zinc-600 pt-4">
                     <button
                         id="cancel"
                         type="button"

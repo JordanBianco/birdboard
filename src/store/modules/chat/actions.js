@@ -1,8 +1,8 @@
 import api from '@/apis/api'
 
-export const getConversations = async ({commit}, {username}) => {
+export const getConversations = async ({commit}, {username, search}) => {
     try {
-        const res = await api.get('/user/' + username + '/conversations')
+        const res = await api.get('/user/' + username + '/conversations?search=' + search)
         if (res.status === 200) {
             commit('GET_CONVERSATIONS', res.data.data)
         }

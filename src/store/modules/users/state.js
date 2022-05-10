@@ -5,5 +5,6 @@ export default {
     lastPage: null,
     success: false,
     editSuccess: false,
-    errors: []
+    errors: [],
+    searchResults: []
 }

@@ -2,14 +2,13 @@
     <div
         v-chat-scroll="{ always: false }"
         @v-chat-scroll-top-reached="loadMoreMessages()"
-        class="p-4 text-sm overflow-auto"
-        style="height: 432px">
+        class="p-6 text-sm overflow-auto absolute left-0 right-0 top-[86px] bottom-24">
 
             <div
                 v-for="message in messages"
                 :key="message.id"
-                :class="[ message.from === user.id ? 'flex justify-end' : '' ]">
-                    <div class="relative mb-5">
+                :class="[ message.from === user.id ? 'flex justify-end mb-3' : '' ]">
+                    <div class="relative mb-3">
                         <div
                             :class="[ message.from === user.id ? '-right-2 bg-sky-400' : '-left-2 bg-emerald-400 transform rotate-90' ]"
                             class="triangle w-4 h-4 absolute"></div>
@@ -27,11 +26,11 @@
                                     style="font-size: 11px"
                                     class="text-slate-400 whitespace-nowrap">{{ $moment(message.created_at).format('DD MMMM YYYY H:mm') }}</p>
 
-                            <div
+                            <!-- <div
                                 v-if="message.from === user.id"
                                 :class="[ message.read ? 'text-sky-400' : 'text-slate-300' ]">
                                     <svg class="w-5 h-5 flex-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M18.71,7.21a1,1,0,0,0-1.42,0L9.84,14.67,6.71,11.53A1,1,0,1,0,5.29,13l3.84,3.84a1,1,0,0,0,1.42,0l8.16-8.16A1,1,0,0,0,18.71,7.21Z"/></svg>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
             </div>

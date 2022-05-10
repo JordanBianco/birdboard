@@ -1,56 +1,15 @@
 <template>
-    <div class="flex py-10" style="height: 650px">
+    <div class="grid grid-cols-12 absolute left-0 right-0 bottom-0 top-[71px]">
 
-        <section class="border border-slate-200 bg-white overflow-y-auto w-1/3">
-
-            <NewChatMessage
+        <section class="col-span-3 bg-slate-50 dark:bg-zinc-800 border-r dark:border-zinc-600 border-slate-100 overflow-y-auto">
+            <ChatSidebar
+                :conversations="conversations"
                 :authUser="authUser"
-                @selectUser="selectUser"
+                @searchConversation="searchConversation"
             />
-
-            <!-- Chat avviate -->
-            <div
-                v-for="conversation,index in conversations"
-                :key="index"
-                class="flex items-center justify-between text-sm odd:bg-slate-50 cursor-pointer transition hover:bg-slate-100"
-            >
-                <!-- Io ho iniziato la conversazione e ho bisogno del to -->
-                <div
-                    v-if="conversation.from.id === authUser.id"
-                    class="w-full flex items-center space-x-3 px-4 py-3"
-                    :class="[ selectedUser != null && selectedUser.id === conversation.to.id ? 'bg-slate-100' : '' ]"
-                    @click="selectUser(conversation.to)">
-                        <div class="w-10 h-10 rounded-full bg-slate-500"></div>
-                        <div class="w-full">
-                            <span class="font-semibold text-slate-700 mr-2">{{ conversation.to.name }}</span>
-                            <span class="text-slate-400 block -mt-0.5 max-w-max">@{{ conversation.to.username }}</span>
-                        </div>
-
-                        <div
-                            v-if="conversation.my_unread_messages && conversation.my_unread_messages.length != 0"
-                            class="w-4.5 h-4.5 flex-none flex items-center justify-center text-center text-white text-xs rounded-full bg-emerald-400">{{ conversation.my_unread_messages.length }}</div>
-                </div>
-
-                <!-- altrimenti se ho ricevuto un messaggio prendo il from -->
-                <div
-                    v-else
-                    class="w-full flex items-center space-x-3 px-4 py-3"
-                    :class="[ selectedUser != null && selectedUser.id === conversation.from.id ? 'bg-slate-100' : '' ]"
-                    @click="selectUser(conversation.from)">
-                        <div class="w-10 h-10 rounded-full bg-slate-300"></div>
-                        <div class="w-full">
-                            <span class="font-semibold text-slate-700 mr-2">{{ conversation.from.name }}</span>
-                            <span class="text-slate-400 block -mt-0.5 max-w-max">@{{ conversation.from.username }}</span>
-                        </div>
-                        
-                        <div
-                            v-if="conversation.my_unread_messages && conversation.my_unread_messages.length != 0"
-                            class="w-4.5 h-4.5 flex-none flex items-center justify-center text-center text-white text-xs rounded-full bg-emerald-400">{{ conversation.my_unread_messages.length }}</div>
-                </div>
-            </div>
         </section>
 
-        <section class="w-2/3 border border-l-0 border-slate-200 bg-white">
+        <section class="col-span-9 bg-white dark:bg-zinc-700">
             <ChatBox
                 v-if="selectedUser"
                 :selectedUser="selectedUser"
@@ -60,26 +19,45 @@
 </template>
 
 <script>
-import NewChatMessage from '@/components/Chat/NewChatMessage'
-import ChatBox from '@/components/Chat/ChatBox'
+import ChatSidebar from '@/components/Chat/Sidebar/ChatSidebar'
+import ChatBox from '@/components/Chat/Box/ChatBox'
 
 export default {
     name: 'Chat.index',
     components: {
-        NewChatMessage,
+        ChatSidebar,
         ChatBox
     },
-    beforeRouteLeave(to, from, next) {
-        this.$store.commit('chat/EMPTY_CONVERSATIONS')
-        next()
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.emptyConversations()
+            vm.emptySelectedUser()
+        })
+    },
+    beforeDestroy() {
+        Echo.leave('chatpage');
+        this.$store.commit('chat/REMOVE_ONLINE_USER', {user: this.authUser})
     },
     mounted() {
+        let _this = this;
+
         this.getConversations()
 
-        window.Echo.private('messages.' + this.authUser.id)
-            // .whisper('typing', {
-                
-            // })
+        Echo.join('chatpage')
+            .here((users) => {
+                this.$store.commit('chat/SET_ONLINE_USERS', users)
+            })
+            .joining((user) => {
+                this.$store.commit('chat/PUSH_ONLINE_USER', user)
+            })
+            .leaving((user) => {
+                this.$store.commit('chat/REMOVE_ONLINE_USER', user)
+            })
+            .error((error) => {
+                console.error(error);
+            });
+
+        Echo.private('messages.' + this.authUser.id)
             .listen('MessageSent', e => {
                 this.newMessageReceived(e.message)
 
@@ -87,13 +65,35 @@ export default {
                     this.$store.commit('chat/PUSH_MESSAGE', e.message)
                 }
             })
+            .listenForWhisper('typing', (e) => {
+                if (this.selectedUser && e.user.id === this.selectedUser.id) {
+                    this.$store.commit('chat/SET_TYPING_USER', e.user)
+                    this.$store.commit('chat/IS_TYPING', e.isTyping)
+
+                    if (this.typingClock) clearTimeout()
+
+                    this.typingClock = setTimeout(function() {
+                        _this.$store.commit('chat/IS_TYPING', false)
+                        _this.$store.commit('chat/SET_TYPING_USER', [])
+                    }, 2000);
+                }
+            })
+    },
+    watch: {
+        search() {
+            this.getConversations()
+        }
     },
     data() {
         return {
-            selectedUser: null,
+            search: '',
+            typingClock: null
         }
     },
     computed: {
+        selectedUser() {
+            return this.$store.state.chat.selectedUser
+        },
         conversations() {
             return this.$store.state.chat.conversations
         },
@@ -102,19 +102,14 @@ export default {
         }
     },
     methods: {
+        searchConversation(search) {
+            this.search = search
+        },
         getConversations() {
             this.$store.dispatch('chat/getConversations', {
-                username: this.$store.state.auth.user.username
+                username: this.$store.state.auth.user.username,
+                search: this.search
             })
-        },
-        selectUser(user) {
-            if (this.selectedUser === user) return
-            this.$store.commit('chat/EMPTY_CHAT_HISTORY')
-            this.$store.commit('chat/RESET_PAGE')
-
-            this.readAllUnreadMessages(user)
-
-            this.selectedUser = user
         },
         newMessageReceived(message) {
 
@@ -132,10 +127,11 @@ export default {
                 to: this.authUser
             })
         },
-        readAllUnreadMessages(user) {
-            this.$store.dispatch('chat/readAllUnreadMessages', {
-                user: user
-            })
+        emptyConversations() {
+            this.$store.commit('chat/EMPTY_CONVERSATIONS')
+        },
+        emptySelectedUser() {
+            this.$store.commit('chat/SELECT_USER', null)
         }
     }
 }

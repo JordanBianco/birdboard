@@ -1,0 +1,6 @@
+follower
+richiesta amicizia
+accetta / rifiuta richiesta
+
+cambio password nel settings
+

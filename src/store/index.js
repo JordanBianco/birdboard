@@ -13,6 +13,7 @@ import follow from '@/store/modules/follow'
 import notification from '@/store/modules/notification'
 import chat from '@/store/modules/chat'
 import authUser from '@/store/modules/authUser'
+import site from '@/store/modules/site'
 
 const dataState = createPersistedState({
 	paths: [
@@ -21,6 +22,7 @@ const dataState = createPersistedState({
 		'auth.user',
 		'like.likes',
 		'follow.loggedInUserFollowing',
+		'site'
 	]
 })
 
@@ -38,7 +40,8 @@ export default new Vuex.Store({
 		follow,
 		notification,
 		chat,
-		authUser
+		authUser,
+		site
 	},
 	plugins: [dataState],
 })

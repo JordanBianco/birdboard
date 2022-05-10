@@ -1,13 +1,13 @@
 <template>
     <div>
-        <section class="p-4 border-b border-slate-200 flex items-center space-x-4">
+        <section class="p-4 border-b border-slate-200 dark:border-zinc-600 flex items-center space-x-4">
             <span class="block"> A: </span>
             <input
                 v-model="search"
                 type="text"
                 placeholder="Cerca..."
                 autofocus
-                class="placeholder-slate-300 w-full focus:outline-none">
+                class="placeholder-slate-300 bg-transparent w-full focus:outline-none">
         </section>
     </div>
 </template>

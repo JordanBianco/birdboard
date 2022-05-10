@@ -2,20 +2,20 @@
     <div>
         <form
             @submit.prevent="storePost()"
-            class="text-sm bg-white shadow-md shadow-slate-100 drop-shadow-xs rounded-xl p-5">
+            class="text-sm bg-white dark:bg-zinc-700 shadow-md shadow-slate-200 dark:shadow-slate-900 drop-shadow-xs rounded-xl p-5">
                 <textarea
                     v-model="post.body"
                     name="body"
                     id="body"
                     :placeholder="'Hey ' + user.name + '! Come va?'"
-                    class="w-full resize-none placeholder-slate-400 focus:outline-none"
+                    class="w-full resize-none placeholder-slate-400 focus:outline-none bg-transparent"
                     rows="4"></textarea>
                 
-                <footer class="flex items-center justify-between border-t border-slate-100 pt-2">
+                <footer class="flex items-center justify-between border-t border-slate-100 dark:border-zinc-600 pt-4">
                     
                     <UserAvatar
                         :user="user"
-                        classes="w-9 h-9"
+                        :classes="'w-9 h-9'"
                     />
                     <button
                         type="submit"
