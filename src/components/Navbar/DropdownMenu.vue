@@ -60,6 +60,12 @@ export default {
             id: this.user.id,
             page: 1
         })
+
+        /** Una volta loggato carico tutte le richieste (10 per pagina ritornate dall API) */
+        this.$store.dispatch('followRequest/getReceivedFollowRequests', {
+            user: this.user,
+            page: 1
+        })
     },
     data() {
         return {

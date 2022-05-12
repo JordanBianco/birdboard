@@ -46,9 +46,9 @@
                                             </div>
                                         </div>
                                         <button
-                                            v-if="loggedInUser && loggedInUser.id === user.id"
+                                            v-if="loggedInUser.id === user.id"
                                             @click="removeFollower(follower)"
-                                            class="whitespace-nowrap text-xs bg-white hover:bg-red-500 border border-slate-300 hover:border-red-600 text-slate-400 hover:text-white transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max">
+                                            class="whitespace-nowrap text-xs bg-white hover:bg-red-500 text-slate-400 hover:text-white transition rounded-full px-4 py-1.5 focus:outline-sky-200 max-w-max border dark:border-0">
                                                 Rimuovi
                                         </button>
                                 </div>
@@ -102,7 +102,7 @@ export default {
     methods: {
         getUserFollowers() {
             this.$store.dispatch('follow/getUserFollowers', { 
-                username: this.user.username,
+                id: this.user.id,
                 page: this.page
             })
         },

@@ -9,8 +9,13 @@ import feed from '@/store/modules/feed'
 import users from '@/store/modules/users' // cambiare in post
 import reply from '@/store/modules/reply'
 import like from '@/store/modules/like'
+
 import follow from '@/store/modules/follow'
+import followRequest from '@/store/modules/followRequest'
+
 import notification from '@/store/modules/notification'
+import popupNotification from '@/store/modules/popupNotification'
+
 import chat from '@/store/modules/chat'
 import authUser from '@/store/modules/authUser'
 import site from '@/store/modules/site'
@@ -38,7 +43,9 @@ export default new Vuex.Store({
 		reply,
 		like,
 		follow,
+		followRequest,
 		notification,
+		popupNotification,
 		chat,
 		authUser,
 		site

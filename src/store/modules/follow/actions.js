@@ -1,5 +1,6 @@
 import api from '@/apis/api'
 
+/** Following */
 export const getLoggedInUserFollowing = async ({commit}, {username}) => {
     try {
         const res = await api.get('/user/' + username + '/all-following')
@@ -11,21 +12,9 @@ export const getLoggedInUserFollowing = async ({commit}, {username}) => {
     }
 }
 
-export const getUserFollowers = async ({commit}, {username, page}) => {
+export const getUserFollowing = async ({commit}, {id, page}) => {
     try {
-        const res = await api.get('/user/' + username + '/followers?page=' + page)
-        if (res.status === 200) {
-            commit('GET_USER_FOLLOWERS', res.data)
-            commit('GET_LAST_PAGE', res.data.meta.last_page)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-export const getUserFollowing = async ({commit}, {username, page}) => {
-    try {
-        const res = await api.get('/user/' + username + '/following?page=' + page)
+        const res = await api.get('/user/' + id + '/following?page=' + page)
         if (res.status === 200) {
             commit('GET_USER_FOLLOWING', res.data)
             commit('GET_LAST_PAGE', res.data.meta.last_page)
@@ -35,22 +24,26 @@ export const getUserFollowing = async ({commit}, {username, page}) => {
     }
 }
 
-export const addFollowing = async ({commit}, {user, loggedInUser}) => {
+export const removeFollowing = async ({commit}, {following, user, value}) => {
     try {
-        const res = await api.post('/user/' + user.id + '/follow')
+        const res = await api.delete('/user/' + user.id + '/unfollow', { params: {
+            following_id: following.id
+        }})
         if (res.status === 200) {
-            commit('ADD_FOLLOWING', {user, loggedInUser})
+            commit('REMOVE_FOLLOWING', {following, user, value})
         }
     } catch (error) {
         console.log(error)
     }
 }
 
-export const removeFollowing = async ({commit}, {followed, user, value}) => {
+/** Followers */
+export const getUserFollowers = async ({commit}, {id, page}) => {
     try {
-        const res = await api.delete('/user/' + followed.id + '/unfollow')
+        const res = await api.get('/user/' + id + '/followers?page=' + page)
         if (res.status === 200) {
-            commit('REMOVE_FOLLOWING', {followed, user, value})
+            commit('GET_USER_FOLLOWERS', res.data)
+            commit('GET_LAST_PAGE', res.data.meta.last_page)
         }
     } catch (error) {
         console.log(error)
@@ -59,7 +52,9 @@ export const removeFollowing = async ({commit}, {followed, user, value}) => {
 
 export const removeFollower = async ({commit}, {follower, user}) => {
     try {
-        const res = await api.delete('/user/' + follower.id + '/remove-follower')
+        const res = await api.delete('/user/' + user.id + '/remove-follower', { params: {
+            follower: follower.id
+        }})
         if (res.status === 200) {
             commit('REMOVE_FOLLOWER', {follower, user})
         }

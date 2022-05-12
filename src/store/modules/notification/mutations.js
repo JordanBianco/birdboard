@@ -46,21 +46,11 @@ export const DELETE_NOTIFICATIONS = (state) => {
     state.total = 0
 }
 
+export const NEXT_PAGE = (state) => {
+    state.page = state.page + 1
+}
 
-export const NEW_POPUP_NOTIFICATION = (state, notification) => {
-    /**
-        Qui pusho direttamente ciò che arriva dall' API, quindi senza la chiave data
-     */
-    if (state.popupNotifications.length === 0) {
-        state.popupNotifications.push(notification)
-    }
-
-    /**
-        Va pushata anche nelle notifiche ricevute
-        Laravel ritorna le notifiche dal DB in modo diverso da quelle viaBroadcast (broadcast non ha data)
-        Quindi qui ricreo la struttura come fosse dal DB, e in base al tipo di notifica creo l'oggetto
-    */
-    let type = notification.type.replace("App\\Notifications\\", '')
+export const PUSH_NEW_NOTIFICATION = (state, {notification, type}) => {
 
     switch (type) {
         case 'NewReply':
@@ -102,15 +92,19 @@ export const NEW_POPUP_NOTIFICATION = (state, notification) => {
             })
             break;
 
+        case 'NewFollowRequestReceived':
+            state.notifications.unshift({
+                id: notification.id,
+                type: notification.type,
+                data: {
+                    user: notification.user,
+                },
+                read_at: null,
+                created_at: notification.created_at
+            })
+            break;
+
         default:
             break;
     }
-}
-
-export const REMOVE_POPUP_NOTIFICATION = (state, notification) => {
-    state.popupNotifications.splice(state.popupNotifications.indexOf(notification, 1))
-}
-
-export const NEXT_PAGE = (state) => {
-    state.page = state.page + 1
 }

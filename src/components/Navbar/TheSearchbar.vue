@@ -18,17 +18,19 @@
                         v-for="user in searchResults"
                         :key="user.id"
                         class="mb-4 last:mb-0">
-                            <div class="flex items-center space-x-4">
-                                <UserAvatar
-                                    :user="user"
-                                    :classes="'w-8 h-8'"
-                                />
-                                <router-link
-                                    :to="{ name: 'user.show', params: { username: user.username }}">
+                            <router-link
+                                @click.native="clearSearchbar()"
+                                class="flex items-center space-x-4"
+                                :to="{ name: 'user.show', params: { username: user.username }}">
+                                    <UserAvatar
+                                        :user="user"
+                                        :classes="'w-8 h-8'"
+                                    />
+                                    <div>
                                         <span class="block text-sm">{{ user.name }}</span>
                                         <span class="block text-xs text-slate-400">@{{ user.username }}</span>
-                                </router-link>
-                            </div>
+                                    </div>
+                            </router-link>
                     </div>
                 </div>
         </div>
@@ -65,6 +67,9 @@ export default {
             } else {
                 this.$store.commit('users/SEARCH_RESULTS', [])
             }
+        },
+        clearSearchbar() {
+            this.search = ''
         }
     }
 }

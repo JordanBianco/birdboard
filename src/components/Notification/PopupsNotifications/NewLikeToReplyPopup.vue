@@ -28,7 +28,7 @@ export default {
     name: 'NewLikeToPostPopup',
     mounted() {
         setTimeout(() => {
-            this.$store.commit('notification/REMOVE_POPUP_NOTIFICATION', this.notification)
+            this.$store.commit('popupNotification/REMOVE_POPUP_NOTIFICATION', this.notification)
         }, 5000);
     },
     props: {

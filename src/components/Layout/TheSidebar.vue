@@ -31,19 +31,13 @@
                         <span class="font-semibold text-sm">Profilo</span>
                 </router-link>
 
-                <div class="flex items-center justify-between">
-                    <router-link
-                        :to="{ name: 'chat.index', params: { username: user.username }}"
-                        exact-active-class="text-sky-400"
-                        class="flex items-center space-x-3 hover:text-sky-400 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send w-5 h-5 flex-none text-slate-400"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                            <span class="font-semibold text-sm">Chat</span>
-                    </router-link>
-
-                    <!-- <div class="rounded-full w-4 h-4 bg-red-600 text-white text-xs text-center">
-                        2
-                    </div> -->
-                </div>
+                <router-link
+                    :to="{ name: 'chat.index', params: { username: user.username }}"
+                    exact-active-class="text-sky-400"
+                    class="flex items-center space-x-3 hover:text-sky-400 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send w-5 h-5 flex-none text-slate-400"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                        <span class="font-semibold text-sm">Chat</span>
+                </router-link>
 
                 <div class="flex items-center justify-between">
                     <router-link
@@ -61,15 +55,15 @@
 
                 <div class="flex items-center justify-between">
                     <router-link
-                        :to="{ name: 'notification.index', params: { username: user.username }}"
+                        :to="{ name: 'request.index', params: { username: user.username }}"
                         exact-active-class="text-sky-400"
                         class="flex items-center space-x-3 hover:text-sky-400 transition">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus w-5 h-5 flex-none text-slate-400"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
                             <span class="font-semibold text-sm">Richieste</span>
                     </router-link>
 
-                    <div class="rounded-full w-4.5 h-4.5 bg-sky-400 text-white text-xxs flex justify-center items-center">
-                        8
+                    <div v-if="receivedFollowRequests > 0" class="rounded-full w-4.5 h-4.5 bg-sky-400 text-white text-xxs flex justify-center items-center">
+                        {{ receivedFollowRequests > 9 ? '9+' : receivedFollowRequests }}
                     </div>
                 </div>
 
@@ -113,6 +107,9 @@ export default {
         },
         unreadNotifications() {
             return this.$store.state.notification.notifications.filter(n => { return n.read_at === null }).length
+        },
+        receivedFollowRequests() {
+            return this.$store.state.followRequest.receivedFollowRequests.length
         },
     },
     methods: {

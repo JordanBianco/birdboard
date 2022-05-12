@@ -41,14 +41,14 @@ export const signout = async ({commit}) => {
     try {
         const res = await api.post('/signout');
         if (res.status === 200) {
+            router.push({ name: 'signin' })
+
             commit('SET_LOGGED_IN_STATUS', false)
             commit('SET_USER', null)
             commit('SET_TOKEN', null)
 
             commit('like/GET_USER_LIKES', [], { root: true})
             commit('follow/GET_LOGGED_IN_USER_FOLLOWING', [], { root: true})
-
-            router.push({ name: 'signin' })
         }        
     } catch (error) {
         console.log(error)

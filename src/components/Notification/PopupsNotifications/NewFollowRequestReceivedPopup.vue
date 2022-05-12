@@ -5,19 +5,17 @@
 
         <div>
             <span class="block text-slate-400 text-xxs mt-0.5">adesso</span>
-            <span class="block text-sm font-semibold">Nuovo commento</span>
+            <span class="block text-sm font-semibold">Nuova richiesta di seguirti</span>
             <router-link
                 class="block text-slate-400 text-xs"
                 :to="{
-                    name: 'post.show',
+                    name: 'user.show',
                     params: {
-                        username: notification.post.user.username,
-                        id: notification.post.id
-                    },
-                    hash: '#' + notification.reply.id
+                        username: notification.user.username,
+                    }
                 }"
             >
-                {{ notification.reply.user.name }} ha commentato il tuo post
+                {{ notification.user.name }} ha chiesto di seguirti
             </router-link>
         </div>
     </div>
@@ -25,7 +23,7 @@
 
 <script>
 export default {
-    name: 'NewReplyPopup',
+    name: 'NewFollowRequestReceived',
     created() {
         setTimeout(() => {
             this.$store.commit('popupNotification/REMOVE_POPUP_NOTIFICATION', this.notification)

@@ -1,9 +1,6 @@
 export default {
-    notifications: [],
-    
+    notifications: [],    
     page: 1,
     lastPage: null,
-    total: null,
-    
-    popupNotifications: []
+    total: null
 }

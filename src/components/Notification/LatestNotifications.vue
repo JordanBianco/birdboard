@@ -37,7 +37,7 @@ export default {
         NewReply: () => import ('@/components/Notification/NewReply'),
         NewLikeToPost: () => import ('@/components/Notification/NewLikeToPost'),
         NewLikeToReply: () => import ('@/components/Notification/NewLikeToReply'),
-        // NewFollower: () => import ('@/components/Notification/NewFollower')
+        NewFollowRequestReceived: () => import ('@/components/Notification/NewFollowRequestReceived')
     },
     methods: {
         notificationType(notification) {

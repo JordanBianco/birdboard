@@ -48,6 +48,14 @@ const routes = [
 		props: true,
 		meta: { auth: true }
 	},
+	// User Request
+	{
+		path: '/:username/request',
+		name: 'request.index',
+		component: () => import(/* webpackChunkName: "request.index" */ '../views/User/Request/index.vue'),
+		props: true,
+		meta: { auth: true }
+	},
 	// User Chat
 	{
 		path: '/:username/chat',

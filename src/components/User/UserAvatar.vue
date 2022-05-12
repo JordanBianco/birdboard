@@ -14,7 +14,7 @@
                         v-else
                         :src="'https://eu.ui-avatars.com/api/?background=eeeeee&color=3f3f46&name=' + user.name"
                         alt=""
-                        class="rounded-full flex-none">
+                        class="rounded-full flex-none w-36">
             </router-link>
     </div>
 </template>

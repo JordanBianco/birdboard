@@ -21,11 +21,11 @@ export default {
         NewReplyPopup: () => import ('@/components/Notification/PopupsNotifications/NewReplyPopup'),
         NewLikeToPostPopup: () => import ('@/components/Notification/PopupsNotifications/NewLikeToPostPopup'),
         NewLikeToReplyPopup: () => import ('@/components/Notification/PopupsNotifications/NewLikeToReplyPopup'),
-        // NewFollower: () => import ('@/components/Notification/NewFollower')
+        NewFollowRequestReceivedPopup: () => import ('@/components/Notification/PopupsNotifications/NewFollowRequestReceivedPopup')
     },
     computed: {
         popupNotifications() {
-			return this.$store.state.notification.popupNotifications
+			return this.$store.state.popupNotification.popupNotifications
 		}
     },
     methods: {

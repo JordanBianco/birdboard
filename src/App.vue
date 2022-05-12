@@ -40,7 +40,22 @@ export default {
     },
 	methods: {
 		newNotification(notification) {
-			this.$store.commit('notification/NEW_POPUP_NOTIFICATION', notification)
+			/**
+			 * Va pushata anche nelle notifiche ricevute 
+			 * Laravel ritorna le notifiche dal DB in modo diverso da quelle viaBroadcast (broadcast non ha data)
+			 * Quindi qui ricreo la struttura come fosse dal DB, e in base al tipo di notifica creo l'oggetto
+			 */
+			let type = notification.type.replace("App\\Notifications\\", '')
+
+			/**
+			 * Se ricevo una notifica di follow, va pushata anche nelle richieste riceveute recenti (oltre alla notifica pop up)
+			 */
+			if (type === 'NewFollowRequestReceived') {
+				this.$store.commit('followRequest/PUSH_NEW_FOLLOW_REQUEST', notification)
+			}
+
+			this.$store.commit('notification/PUSH_NEW_NOTIFICATION', {notification, type})
+			this.$store.commit('popupNotification/NEW_POPUP_NOTIFICATION', notification)
 		}
 	}
 
