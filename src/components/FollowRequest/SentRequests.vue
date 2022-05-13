@@ -97,7 +97,8 @@ export default {
         cancelRequest(user) {
             this.$store.dispatch('followRequest/cancelRequest', {
                 user: this.user,
-                following: user
+                following: user,
+                route_name: this.$route.name
             })
         }
     }

@@ -119,8 +119,7 @@ export default {
         removeFollowing(followed) {
             this.$store.dispatch('follow/removeFollowing', {
                 following: followed,
-                user: this.user,
-                value: true
+                user: this.user
             })
         },
         visibilityChanged(isVisible) {

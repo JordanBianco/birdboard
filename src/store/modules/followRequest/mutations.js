@@ -50,3 +50,7 @@ export const REMOVE_FOLLOW_REQUEST_FROM_SENT = (state, following) => {
 export const SET_SUCCESS_STATUS = (state, value) => {
     state.success = value
 }
+
+export const SET_FOLLOW_REQUEST_STATUS = (state, value) => {
+    state.followRequestStatus = value
+}

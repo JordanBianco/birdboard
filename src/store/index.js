@@ -26,7 +26,6 @@ const dataState = createPersistedState({
 		'auth.token',
 		'auth.user',
 		'like.likes',
-		'follow.loggedInUserFollowing',
 		'site'
 	]
 })

@@ -1,17 +1,6 @@
 import api from '@/apis/api'
 
 /** Following */
-export const getLoggedInUserFollowing = async ({commit}, {username}) => {
-    try {
-        const res = await api.get('/user/' + username + '/all-following')
-        if (res.status === 200) {
-            commit('GET_LOGGED_IN_USER_FOLLOWING', res.data.data)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 export const getUserFollowing = async ({commit}, {id, page}) => {
     try {
         const res = await api.get('/user/' + id + '/following?page=' + page)
@@ -24,13 +13,14 @@ export const getUserFollowing = async ({commit}, {id, page}) => {
     }
 }
 
-export const removeFollowing = async ({commit}, {following, user, value}) => {
+export const removeFollowing = async ({commit}, {following, user}) => {
     try {
         const res = await api.delete('/user/' + user.id + '/unfollow', { params: {
             following_id: following.id
         }})
         if (res.status === 200) {
-            commit('REMOVE_FOLLOWING', {following, user, value})
+            commit('REMOVE_FOLLOWING', {following, user})
+            commit('followRequest/SET_FOLLOW_REQUEST_STATUS', 'null', { root: true })
         }
     } catch (error) {
         console.log(error)

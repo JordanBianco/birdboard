@@ -6,7 +6,7 @@ export const sendFollowRequest = async ({commit}, {following, loggedInUser}) => 
             following: following
         })
         if (res.status === 200) {
-            commit('SET_SUCCESS_STATUS', true)
+            commit('SET_FOLLOW_REQUEST_STATUS', 'pending')
         }
     } catch (error) {
         console.log(error)
@@ -68,13 +68,33 @@ export const declineRequest = async ({commit}, {user, follower, status}) => {
     }
 }
 
-export const cancelRequest = async ({commit}, {user, following}) => {
+export const cancelRequest = async ({commit}, {user, following, route_name}) => {
     try {
         const res = await api.delete('/user/' + user.id + '/follow-request', { params: {
             following_id: following.id,
         }})
+        
         if (res.status === 200) {
-            commit('REMOVE_FOLLOW_REQUEST_FROM_SENT', following)
+            /** Se provengo dalla pagina dell'utente devo solo settare lo stato della richiesta come null */
+            if (route_name === 'user.show') {
+                commit('SET_FOLLOW_REQUEST_STATUS', 'null')                
+            } else {
+                /** Altrimenti rimuovo la richiesta (dalla pagina request.index) */
+                commit('REMOVE_FOLLOW_REQUEST_FROM_SENT', following)
+            }
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const checkRequestStatus = async ({commit}, {loggedInUser, user}) => {
+    try {
+        const res = await api.get('/user/' + loggedInUser.id + '/status-follow-request', { params: {
+            user_id: user.id
+        }})
+        if (res.status === 200) {
+            commit('SET_FOLLOW_REQUEST_STATUS', res.data)
         }
     } catch (error) {
         console.log(error)

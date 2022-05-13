@@ -24,9 +24,6 @@ export const signin = async ({commit, dispatch}, {user}) => {
             
             // prendo i likes dell'utente e li salvo in persisted.state 
             dispatch('like/getUserLikes', { username: res.data.user.username }, { root: true})
-
-            // prendo i following dell'utente che si logga e li salvo in persisted.state per fare i check se seguo l'utente su cui sono (la pagina) o meno
-            dispatch('follow/getLoggedInUserFollowing', { username: res.data.user.username }, { root: true })
             
             router.push({ name: 'user.show', params: { username : res.data.user.username }})
         }        

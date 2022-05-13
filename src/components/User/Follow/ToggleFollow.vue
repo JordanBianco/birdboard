@@ -3,10 +3,11 @@
         <button
             v-if="loggedInUser.id !== user.id"
             @click="toggleFollow()"
-            :class="[ alreadyFollowing() ? 'bg-white hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-600 text-slate-400' : 'bg-sky-400 hover:bg-sky-500 text-white focus:outline-sky-200' ]"
-            class="text-sm transition rounded-full px-4 py-2 max-w-max">
-                <!-- {{ alreadyFollowing() ? 'Non seguire più' : 'Segui' }} -->
-                {{ success ? 'Richiesta inviata' : 'Segui' }}
+            :class="[ 
+                followRequestStatus === 'null' ? 'bg-sky-400 hover:bg-sky-500 text-white focus:outline-sky-200' 
+                    : followRequestStatus === 'pending' || followRequestStatus === 'accepted' ? 'bg-white hover:border-slate-300 dark:hover:text-slate-600 border border-slate-200 text-slate-400' : '' ]"
+            class="text-xs transition rounded-full px-4 py-2 max-w-max">
+                {{ buttonText() }}
         </button>
     </div>
 </template>
@@ -25,47 +26,59 @@ export default {
         }
     },
     mounted() {
-        // Richiesta al server, ritorna se esiste una richiesta e ase si a che punto è (pending, accepted)
+        if (this.loggedInUser.id !== this.user.id) {
+            this.checkRequestStatus()            
+        }
     },
-    // watch: {
-    //     success: {
-    //         handler() {
-    //             if (this.success) {
-    //                 this.$store.commit('follow/SET_SUCCESS_STATUS', false)
-    //             }
-    //         }
-    //     }
-    // },
+    data() {
+        return {
+            followingStatus: false
+        }
+    },
     computed: {
+        followRequestStatus() {
+            return this.$store.state.followRequest.followRequestStatus
+        },
         success() {
-            return this.$store.state.follow.success
+            return this.$store.state.followRequest.success
         }
     },
     methods: {
-        toggleFollow() {
-            // if (this.alreadyFollowing()) {
-            //     this.$store.dispatch('follow/removeFollowing', {
-            //         followed: this.user,
-            //         user: this.loggedInUser,
-            //         value: false
-            //     })
-            // } else {
-            //     this.$store.dispatch('followRequest/sendFollowRequest', {
-            //         following: this.user,
-            //         loggedInUser: this.loggedInUser
-            //     })
-            // }
+        checkRequestStatus() {
+            this.$store.dispatch('followRequest/checkRequestStatus', {
+                loggedInUser: this.loggedInUser,
+                user: this.user
+            })
         },
-        // alreadySend() {
-        //     return this.$store.state.follow.loggedInUserFollowing.find(user => {
-        //         return user.id === this.user.id
-        //     })
-        // },
-        // alreadyFollowing() {
-        //     return this.$store.state.follow.loggedInUserFollowing.find(user => {
-        //         return user.id === this.user.id
-        //     })
-        // }
+        buttonText() {
+            switch (this.followRequestStatus) {
+                case 'null':
+                    return 'Segui'
+                case 'pending':
+                    return 'Richiesta inviata'
+                case 'accepted':
+                    return 'Non seguire più'
+            }
+        },
+        toggleFollow() {
+            if (this.followRequestStatus === 'null') {
+                this.$store.dispatch('followRequest/sendFollowRequest', {
+                    following: this.user,
+                    loggedInUser: this.loggedInUser
+                })
+            } else if (this.followRequestStatus === 'pending') {
+                this.$store.dispatch('followRequest/cancelRequest', {
+                    user: this.loggedInUser,
+                    following: this.user,
+                    route_name: this.$route.name
+                })
+            } else {
+                this.$store.dispatch('follow/removeFollowing', {
+                    following: this.user,
+                    user: this.loggedInUser,
+                })
+            }
+        }
     }
 }
 </script>

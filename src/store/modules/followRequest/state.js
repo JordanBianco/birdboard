@@ -9,5 +9,6 @@ export default {
     sentLastPage: null,
     sentTotal: null,
 
-    success: false
+    success: false,
+    followRequestStatus: null
 }
