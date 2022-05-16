@@ -9,6 +9,8 @@ export const updateProfileInfo = async ({commit}, {id, name, bio}) => {
         });
         if (res.status === 200) {
             commit('auth/UPDATE_USER', res.data, { root: true })
+            commit('SET_ERRORS', [])
+            commit('SET_SUCCESS_STATUS', true)
         }        
     } catch (error) {
         if (error.response.status === 422) {
@@ -24,6 +26,8 @@ export const updateAccountInfo = async ({commit}, {id, username}) => {
         });
         if (res.status === 200) {
             router.push({ name: 'user.settings.account', params: { username: res.data.username }})
+            commit('SET_ERRORS', [])
+            commit('SET_SUCCESS_STATUS', true)
             commit('auth/UPDATE_USER', res.data, { root: true })
         }        
     } catch (error) {
@@ -37,9 +41,27 @@ export const updateImage = async ({commit}, formData) => {
     try {
         const res = await api.post('/user/' + formData.get('id') + '/image', formData);
         if (res.status === 200) {
-            router.push({ name: 'user.settings.image', params: { username: res.data.username }}).catch(()=>{})
             commit('auth/UPDATE_USER', res.data, { root: true })
             commit('SET_ERRORS', [])
+            commit('SET_SUCCESS_STATUS', true)
+        }
+    } catch (error) {
+        if (error.response.status === 422) {
+            commit('SET_ERRORS', error.response.data.errors)
+        }
+    }
+}
+
+export const updatePassword = async ({commit}, {id, form}) => {
+    try {
+        const res = await api.patch('/user/' + id + '/password', {
+            current_password: form.current_password,
+            new_password: form.new_password,
+            new_password_confirmation: form.new_password_confirmation
+        });
+        if (res.status === 200) {
+            commit('SET_ERRORS', [])
+            commit('SET_SUCCESS_STATUS', true)
         }
     } catch (error) {
         if (error.response.status === 422) {

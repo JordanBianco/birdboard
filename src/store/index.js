@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate";
+import SecureLS from "secure-ls";
+
+var ls = new SecureLS({ isCompression: false });
 
 Vue.use(Vuex)
 
@@ -27,7 +30,12 @@ const dataState = createPersistedState({
 		'auth.user',
 		'like.likes',
 		'site'
-	]
+	],
+	storage: {
+        getItem: (key) => ls.get(key),
+        setItem: (key, value) => ls.set(key, value),
+        removeItem: (key) => ls.remove(key)
+	}
 })
 
 export default new Vuex.Store({

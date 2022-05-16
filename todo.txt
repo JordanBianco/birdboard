@@ -1,7 +1,0 @@
-cambio password nel settings
-
-
-QUANDO ARRIVA NUOVA RICHIESTA SI SEGUIRMI DEVO:
-
-- Aggiungere alle notifiche
-- Pushare nelle ReceivedFollowRequests

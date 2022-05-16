@@ -1,3 +1,4 @@
 export default {
-    errors: []
+    errors: [],
+    success: false
 }

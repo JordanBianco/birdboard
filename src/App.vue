@@ -64,4 +64,14 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>
