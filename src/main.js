@@ -17,9 +17,9 @@ Vue.use(VueChatScroll)
 
 Vue.config.productionTip = false
 
-// Pusher.log = function (message) {
-//     window.console.log(message);
-// };
+Pusher.log = function (message) {
+    window.console.log(message);
+};
 
 window.Echo = new Echo({
     authEndpoint: 'https://birdboardapp.herokuapp.com/broadcasting/auth',
