@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         searchUser() {
-            if (this.search.length > 1) {
+            if (this.search.length != 0) {
                 this.$store.dispatch('users/searchUser', { search: this.search })
             } else {
                 this.$store.commit('users/SEARCH_RESULTS', [])
