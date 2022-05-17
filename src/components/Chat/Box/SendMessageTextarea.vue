@@ -68,10 +68,6 @@ export default {
             this.message.body = ''
         },
         isTyping(e) {
-            console.log(e)
-            // if (condition) {
-                
-            // }
             setTimeout(() => {
                 Echo.private('messages.' + this.selectedUser.id)
                     .whisper('typing', { 

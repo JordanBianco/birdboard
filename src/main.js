@@ -22,10 +22,10 @@ Pusher.log = function (message) {
 };
 
 window.Echo = new Echo({
-    authEndpoint: 'https://birdboardapp.herokuapp.com/broadcasting/auth',
     // authEndpoint: 'http://localhost:8000/broadcasting/auth',
+    authEndpoint: 'https://birdboardapp.herokuapp.com/broadcasting/auth',
     broadcaster: 'pusher',
-    key: '87748a1369a184ff3d3a',
+    key: process.env.VUE_APP_PUSHER_APP_KEY,
     forceTLS: true,
     cluster: "eu",
     auth: {
