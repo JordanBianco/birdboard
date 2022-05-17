@@ -1,5 +1,5 @@
 <template>
-    <nav class="px-6 py-4 bg-white dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-700 z-10">
+    <nav class="p-4 bg-white dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-700 z-10">
         <div class="flex justify-between items-center xl:max-w-7xl mx-auto">
             <router-link
                 :to="{ name: 'home' }"
@@ -8,26 +8,31 @@
                     <h1>Birdboard</h1>
             </router-link>
 
-            <div v-if="!loggedIn" class="flex items-center space-x-6 text-sm">
-                <router-link
-                    id="signin"
-                    :to="{ name: 'signin' }"
-                    class="text-slate-400 hover:text-slate-600 transition">
-                        Accedi
-                </router-link>
-                <router-link
-                    id="signup"
-                    :to="{ name: 'signup' }"
-                    class="bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200">
-                        Iscriviti
-                </router-link>
-            </div>
-            <div
-                v-else
-                class="flex items-center space-x-3">
-                    <TheSearchbar />
-                    <DropdownMenu />
-                    <ToggleTheme />
+            <div class="flex items-center space-x-2">
+                <div v-if="!loggedIn" class="flex items-center space-x-6 text-sm">
+                    <router-link
+                        id="signin"
+                        exact-active-class="dark:text-slate-100 text-slate-600"
+                        :to="{ name: 'signin' }"
+                        class="text-slate-400 hover:text-slate-500 transition hidden sm:block">
+                            Accedi
+                    </router-link>
+
+                    <router-link
+                        id="signup"
+                        :to="{ name: 'signup' }"
+                        class="bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-1.5 focus:outline-sky-200">
+                            Iscriviti
+                    </router-link>
+                </div>
+                <div
+                    v-else
+                    class="flex items-center space-x-3">
+                        <TheSearchbar class="hidden sm:block" />
+                        <DropdownMenu />
+                </div>
+
+                <ToggleTheme />
             </div>
         </div>
     </nav>

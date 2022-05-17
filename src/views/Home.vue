@@ -1,5 +1,5 @@
 <template>
-	<div v-if="user" class="grid grid-cols-12 gap-x-6 py-10">
+	<div v-if="user" class="grid grid-cols-12 gap-6 mt-10">
 
 		<TheSidebar
 			class="lg:col-span-3 col-span-12"
@@ -7,7 +7,7 @@
 		/>
 
 		<TheFeed
-			class="lg:col-span-6 col-span-12"
+			class="lg:col-span-6 col-span-12 mt-10 md:mt-0"
 			:user="user"
 		/>
 

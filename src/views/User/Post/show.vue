@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="post"
-        class="w-[512px] mx-auto space-y-8 py-10">
+        class="mx-auto md:w-[440px] space-y-8 py-10">
 
         <SinglePost
             :post="post"

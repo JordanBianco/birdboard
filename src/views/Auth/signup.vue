@@ -1,6 +1,5 @@
 <template>
-    <div class="max-w-md mx-auto py-10">
-        <h2 class="text-xl font-semibold">Crea il tuo account</h2>
+    <div class="py-10">
         <SignupForm />
     </div>
 </template>

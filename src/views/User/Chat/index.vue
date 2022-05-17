@@ -1,7 +1,7 @@
 <template>
     <div class="grid grid-cols-12 absolute left-0 right-0 bottom-0 top-[71px]">
 
-        <section class="col-span-3 bg-slate-50 dark:bg-zinc-800 border-r dark:border-zinc-600 border-slate-100 overflow-y-auto">
+        <section class="col-span-5 md:col-span-3 bg-slate-50 dark:bg-zinc-800 border-r dark:border-zinc-600 border-slate-100 overflow-y-auto">
             <ChatSidebar
                 :conversations="conversations"
                 :authUser="authUser"
@@ -9,7 +9,7 @@
             />
         </section>
 
-        <section class="col-span-9 bg-white dark:bg-zinc-700">
+        <section class="col-span-7 md:col-span-9 bg-white dark:bg-zinc-700">
             <ChatBox
                 v-if="selectedUser"
                 :selectedUser="selectedUser"

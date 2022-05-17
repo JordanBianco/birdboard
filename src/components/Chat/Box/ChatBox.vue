@@ -43,7 +43,6 @@ export default {
     watch: {
         selectedUser: {
             handler() {
-                this.isInFollowingList()
                 this.$store.commit('chat/EMPTY_CHAT_HISTORY')
                 this.getChatHistory()
             },
@@ -73,19 +72,6 @@ export default {
                 id: this.selectedUser.id,
                 page: this.page
             })
-        },
-        isInFollowingList() {
-            this.notInFollowingList = ''
-
-            let exists
-
-            exists = this.$store.state.follow.loggedInUserFollowing.find(user => {
-                return user.id === this.selectedUser.id
-            })
-
-            if (!exists) {
-                this.notInFollowingList = this.selectedUser.name + ' non è nella tua lista dei seguiti.'
-            }
         }
     }
 }

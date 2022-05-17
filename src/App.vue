@@ -5,7 +5,7 @@
 			<div class="text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-zinc-800 min-h-screen">
 				<TheNavbar />
 				
-				<router-view class="px-6 xl:px-0 xl:max-w-7xl mx-auto"/>
+				<router-view class="px-4 xl:px-0 xl:max-w-7xl mx-auto"/>
 
 				<!-- Notifica Real Time -->
 				<PopupNotification />

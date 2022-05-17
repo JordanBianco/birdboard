@@ -1,6 +1,6 @@
 <template>
     <div v-if="user">
-        <header class="flex items-center justify-between py-5">
+        <header class="flex items-center space-x-4 justify-between py-5">
             <div class="flex items-center space-x-4">
                 <UserAvatar
                     :user="user"
@@ -8,20 +8,20 @@
                 />
 
                 <div>
-                    <span class="font-semibold block">{{ user.name }}</span>
-                    <span class="text-sm text-slate-400 block">@{{ user.username }}</span>
+                    <span class="font-semibold block text-sm md:text-base">{{ user.name }}</span>
+                    <span class="text-slate-400 block text-xs md:text-sm ">@{{ user.username }}</span>
                 </div>
             </div>
 
             <router-link
                 :to="{ name: 'user.show', params: { username: user.username }}"
-                class="text-xs bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-2 focus:outline-sky-200 max-w-max">
+                class="text-xs bg-sky-400 hover:bg-sky-500 transition text-white rounded-full px-4 py-2 focus:outline-sky-200 max-w-max flex-none">
                     Torna al profilo
             </router-link>
         </header>
 
-        <div class="grid grid-cols-12 space-x-16 mt-10">
-            <aside class="col-span-3 space-y-6">
+        <div class="md:grid md:grid-cols-12 md:space-x-16 mt-10">
+            <aside class="md:col-span-3 space-y-6">
                 <section>
                     <span class="block text-slate-400 font-semibold text-xs uppercase mb-3">Impostazioni</span>
                     <div class="bg-white dark:bg-zinc-700 p-5 rounded-xl shadow-md shadow-slate-200 dark:shadow-slate-900 drop-shadow-xs">
@@ -77,7 +77,7 @@
                 </section>
             </aside>
 
-            <div class="col-span-9">
+            <div class="md:col-span-9 py-20 md:py-0">
                 <router-view :user="user"></router-view>
             </div>
         </div>

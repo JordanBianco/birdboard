@@ -7,10 +7,10 @@
             class="bg-black opacity-30 dark:opacity-40 fixed inset-0"></div>
         
         <!-- Modal -->
-        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full md:w-[440px]">
             <form
                 @submit.prevent="updateReply()"
-                class="text-sm bg-white dark:bg-zinc-700 rounded-xl p-5 shadow-lg w-[440px]">
+                class="text-sm bg-white dark:bg-zinc-700 rounded-xl p-5 shadow-lg w-full md:w-[440px]">
                     <textarea
                         v-model="replyCopy.body"
                         name="body"

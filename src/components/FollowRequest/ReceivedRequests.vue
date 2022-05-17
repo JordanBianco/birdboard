@@ -18,7 +18,7 @@
                             <span class="font-semibold">{{ user.name }}</span>
                             <span class="text-slate-400"> ha chiesto di seguirti</span>
 
-                            <div class="flex items-center space-x-2 mt-2 w-1/2">
+                            <div class="flex items-center space-x-2 mt-2 md:w-1/2">
                                 <button
                                     type="button"
                                     @click="acceptRequest(user)"

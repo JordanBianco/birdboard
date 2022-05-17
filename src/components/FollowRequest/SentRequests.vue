@@ -17,7 +17,7 @@
                         <div class="text-sm w-full">
                             <span class="text-slate-400">Hai inviato una richiesta a <span class="font-semibold">{{ user.name }}</span></span>
 
-                            <div class="flex items-center space-x-2 mt-2 w-1/3">
+                            <div class="flex items-center space-x-2 mt-2 md:w-1/3">
                                 <button
                                     @click="cancelRequest(user)"
                                     type="button"
